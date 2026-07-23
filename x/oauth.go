@@ -121,8 +121,9 @@ type (
 	}
 
 	RequestRevokeTokenBody struct {
-		Token    string `json:"token"`
-		ClientID string `json:"client_id"`
+		Token         string        `json:"token"`
+		TokenTypeHint TokenTypeHint `json:"token_type_hint"`
+		ClientID      string        `json:"client_id"`
 	}
 
 	RequestRevokeToken struct {
@@ -296,11 +297,18 @@ func (s *oAuth) RevokeToken(ctx context.Context, request *RequestRevokeToken) (*
 	if body.Token == "" {
 		return nil, ErrMissingToken
 	}
+	if body.TokenTypeHint == "" {
+		return nil, ErrMissingTokenTypeHint
+	}
 	if body.ClientID == "" {
 		body.ClientID = s.client.clientID
 	}
 
-	values := url.Values{"token": {body.Token}, "client_id": {body.ClientID}}
+	values := url.Values{
+		"token":           {body.Token},
+		"token_type_hint": {string(body.TokenTypeHint)},
+		"client_id":       {body.ClientID},
+	}
 	httpRequest, err := s.client.NewRequest(ctx, http.MethodPost, oauthRevokeURL, values)
 	if err != nil {
 		return nil, err

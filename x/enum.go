@@ -17,6 +17,14 @@ const (
 	ContentTypeJSON ContentType = "application/json"
 )
 
+// TokenTypeHint identifies the token type being revoked.
+type TokenTypeHint string
+
+const (
+	TokenTypeHintAccessToken  TokenTypeHint = "access_token"
+	TokenTypeHintRefreshToken TokenTypeHint = "refresh_token"
+)
+
 // UserField selects an optional field on an X user resource.
 type UserField string
 

@@ -411,12 +411,16 @@
                     "token": {
                       "type": "string"
                     },
+                    "token_type_hint": {
+                      "type": "string",
+                      "enum": ["access_token", "refresh_token"]
+                    },
                     "client_id": {
                       "type": "string"
                     }
                   },
                   "additionalProperties": false,
-                  "required": ["token"]
+                  "required": ["token", "token_type_hint"]
                 }
               }
             },

@@ -236,3 +236,26 @@ func TestPostsCreatePost(t *testing.T) {
 		t.Errorf("post ID = %q, want %q", got, want)
 	}
 }
+
+func TestOAuthRevokeTokenIncludesTokenTypeHint(t *testing.T) {
+	httpClient := &http.Client{Transport: roundTripFunc(func(request *http.Request) (*http.Response, error) {
+		if err := request.ParseForm(); err != nil {
+			t.Fatal(err)
+		}
+		if got := request.Form.Get("token_type_hint"); got != string(TokenTypeHintRefreshToken) {
+			t.Errorf("token_type_hint = %q, want %q", got, TokenTypeHintRefreshToken)
+		}
+		return &http.Response{StatusCode: http.StatusNoContent, Status: "204 No Content", Header: make(http.Header), Body: io.NopCloser(strings.NewReader("")), Request: request}, nil
+	})}
+	client, err := NewXClient("client", "secret", "https://example.com/callback", WithScopes(ScopeTweetRead), WithHTTPClient(httpClient))
+	if err != nil {
+		t.Fatal(err)
+	}
+	_, err = NewOAuth(client).RevokeToken(context.Background(), &RequestRevokeToken{Body: RequestRevokeTokenBody{
+		Token:         "refresh-token",
+		TokenTypeHint: TokenTypeHintRefreshToken,
+	}})
+	if err != nil {
+		t.Fatal(err)
+	}
+}

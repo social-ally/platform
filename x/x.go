@@ -22,6 +22,7 @@ var (
 	ErrMissingCodeChallenge = errors.New("X PKCE code challenge is required")
 	ErrMissingCodeVerifier  = errors.New("X PKCE code verifier is required")
 	ErrMissingToken         = errors.New("X token is required")
+	ErrMissingTokenTypeHint = errors.New("X token type hint is required")
 	ErrMissingAccessToken   = errors.New("X access token is required")
 	ErrMissingID            = errors.New("X resource ID is required")
 	ErrMissingMedia         = errors.New("X media is required")
