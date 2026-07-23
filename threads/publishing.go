@@ -10,11 +10,11 @@ import (
 
 // Publishing provides access to publishing endpoints.
 type publishing struct {
-	client *threadsClient
+	client *ThreadsClient
 }
 
 // NewPublishing creates a Publishing endpoint group using client.
-func NewPublishing(client *threadsClient) *publishing {
+func NewPublishing(client *ThreadsClient) *publishing {
 	return &publishing{client: client}
 }
 

@@ -10,11 +10,11 @@ import (
 
 // Users provides access to users endpoints.
 type users struct {
-	client *tikTokClient
+	client *TikTokClient
 }
 
 // NewUsers creates a Users endpoint group using client.
-func NewUsers(client *tikTokClient) *users {
+func NewUsers(client *TikTokClient) *users {
 	return &users{client: client}
 }
 

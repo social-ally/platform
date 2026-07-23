@@ -10,11 +10,11 @@ import (
 
 // Publishing provides access to publishing endpoints.
 type publishing struct {
-	client *instagramClient
+	client *InstagramClient
 }
 
 // NewPublishing creates a Publishing endpoint group using client.
-func NewPublishing(client *instagramClient) *publishing {
+func NewPublishing(client *InstagramClient) *publishing {
 	return &publishing{client: client}
 }
 

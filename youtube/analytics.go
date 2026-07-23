@@ -10,11 +10,11 @@ import (
 
 // Analytics provides access to analytics endpoints.
 type analytics struct {
-	client *youTubeClient
+	client *YouTubeClient
 }
 
 // NewAnalytics creates a Analytics endpoint group using client.
-func NewAnalytics(client *youTubeClient) *analytics {
+func NewAnalytics(client *YouTubeClient) *analytics {
 	return &analytics{client: client}
 }
 

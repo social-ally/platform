@@ -11,11 +11,11 @@ const oauthAuthorizeURL = "https://www.tiktok.com/v2/auth/authorize/"
 
 // OAuth provides access to oauth endpoints.
 type oAuth struct {
-	client *tikTokClient
+	client *TikTokClient
 }
 
 // NewOAuth creates a OAuth endpoint group using client.
-func NewOAuth(client *tikTokClient) *oAuth {
+func NewOAuth(client *TikTokClient) *oAuth {
 	return &oAuth{client: client}
 }
 

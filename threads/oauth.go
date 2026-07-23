@@ -11,11 +11,11 @@ const oauthAuthorizeURL = "https://threads.net/oauth/authorize"
 
 // OAuth provides access to oauth endpoints.
 type oAuth struct {
-	client *threadsClient
+	client *ThreadsClient
 }
 
 // NewOAuth creates a OAuth endpoint group using client.
-func NewOAuth(client *threadsClient) *oAuth {
+func NewOAuth(client *ThreadsClient) *oAuth {
 	return &oAuth{client: client}
 }
 

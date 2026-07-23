@@ -10,11 +10,11 @@ import (
 
 // Analytics provides access to analytics endpoints.
 type analytics struct {
-	client *threadsClient
+	client *ThreadsClient
 }
 
 // NewAnalytics creates a Analytics endpoint group using client.
-func NewAnalytics(client *threadsClient) *analytics {
+func NewAnalytics(client *ThreadsClient) *analytics {
 	return &analytics{client: client}
 }
 

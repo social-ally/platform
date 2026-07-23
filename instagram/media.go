@@ -10,11 +10,11 @@ import (
 
 // Media provides access to media endpoints.
 type media struct {
-	client *instagramClient
+	client *InstagramClient
 }
 
 // NewMedia creates a Media endpoint group using client.
-func NewMedia(client *instagramClient) *media {
+func NewMedia(client *InstagramClient) *media {
 	return &media{client: client}
 }
 

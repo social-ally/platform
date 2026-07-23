@@ -21,10 +21,10 @@ var (
 )
 
 // option configures a YouTube client.
-type option func(*youTubeClient) error
+type option func(*YouTubeClient) error
 
-// youTubeClient is the shared authenticated HTTP client for YouTube endpoint groups.
-type youTubeClient struct {
+// YouTubeClient is the shared authenticated HTTP client for YouTube endpoint groups.
+type YouTubeClient struct {
 	httpClient   *http.Client
 	clientID     string
 	clientSecret string
@@ -55,7 +55,7 @@ func (e *APIError) Unwrap() error {
 
 // WithScopes configures the OAuth scopes requested by the client.
 func WithScopes(scopes ...Scope) option {
-	return func(client *youTubeClient) error {
+	return func(client *YouTubeClient) error {
 		client.scopes = append([]Scope(nil), scopes...)
 		return nil
 	}
@@ -63,7 +63,7 @@ func WithScopes(scopes ...Scope) option {
 
 // WithHTTPClient configures the HTTP client used to execute requests.
 func WithHTTPClient(httpClient *http.Client) option {
-	return func(client *youTubeClient) error {
+	return func(client *YouTubeClient) error {
 		if httpClient == nil {
 			return ErrNilHTTPClient
 		}
@@ -74,11 +74,11 @@ func WithHTTPClient(httpClient *http.Client) option {
 
 // WithAccessToken configures the bearer token used by API endpoint requests.
 func WithAccessToken(accessToken string) option {
-	return func(client *youTubeClient) error { client.accessToken = accessToken; return nil }
+	return func(client *YouTubeClient) error { client.accessToken = accessToken; return nil }
 }
 
 // WithAccessToken returns a copy of c configured for authenticated API requests.
-func (c *youTubeClient) WithAccessToken(accessToken string) (*youTubeClient, error) {
+func (c *YouTubeClient) WithAccessToken(accessToken string) (*YouTubeClient, error) {
 	if c == nil {
 		return nil, ErrNilClient
 	}
@@ -92,7 +92,7 @@ func (c *youTubeClient) WithAccessToken(accessToken string) (*youTubeClient, err
 }
 
 // Do implements [platform.Client].
-func (c *youTubeClient) Do(request *http.Request, response any) error {
+func (c *YouTubeClient) Do(request *http.Request, response any) error {
 	if request == nil {
 		return ErrNilRequest
 	}
@@ -123,7 +123,7 @@ func (c *youTubeClient) Do(request *http.Request, response any) error {
 }
 
 // NewRequest implements [platform.Client].
-func (c *youTubeClient) NewRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
+func (c *YouTubeClient) NewRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
 	var reader io.Reader
 	var contentType string
 
@@ -159,7 +159,7 @@ func (c *youTubeClient) NewRequest(ctx context.Context, method string, rawURL st
 	return request, nil
 }
 
-func (c *youTubeClient) authenticatedRequest(ctx context.Context, method, rawURL string, body any) (*http.Request, error) {
+func (c *YouTubeClient) authenticatedRequest(ctx context.Context, method, rawURL string, body any) (*http.Request, error) {
 	if c == nil {
 		return nil, ErrNilClient
 	}
@@ -170,7 +170,7 @@ func (c *youTubeClient) authenticatedRequest(ctx context.Context, method, rawURL
 }
 
 // NewYouTubeClient creates a YouTube OAuth client.
-func NewYouTubeClient(clientID, clientSecret, redirectURL string, options ...option) (*youTubeClient, error) {
+func NewYouTubeClient(clientID, clientSecret, redirectURL string, options ...option) (*YouTubeClient, error) {
 	if clientID == "" {
 		return nil, ErrMissingClientID
 	}
@@ -181,7 +181,7 @@ func NewYouTubeClient(clientID, clientSecret, redirectURL string, options ...opt
 		return nil, ErrMissingRedirectURL
 	}
 
-	client := &youTubeClient{
+	client := &YouTubeClient{
 		httpClient:   http.DefaultClient,
 		clientID:     clientID,
 		clientSecret: clientSecret,
@@ -201,4 +201,4 @@ func NewYouTubeClient(clientID, clientSecret, redirectURL string, options ...opt
 	return client, nil
 }
 
-var _ platform.Client = (*youTubeClient)(nil)
+var _ platform.Client = (*YouTubeClient)(nil)

@@ -10,11 +10,11 @@ import (
 
 // Publishing provides access to publishing endpoints.
 type publishing struct {
-	client *facebookClient
+	client *FacebookClient
 }
 
 // NewPublishing creates a Publishing endpoint group using client.
-func NewPublishing(client *facebookClient) *publishing {
+func NewPublishing(client *FacebookClient) *publishing {
 	return &publishing{client: client}
 }
 

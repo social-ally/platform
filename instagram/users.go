@@ -10,11 +10,11 @@ import (
 
 // Users provides access to users endpoints.
 type users struct {
-	client *instagramClient
+	client *InstagramClient
 }
 
 // NewUsers creates a Users endpoint group using client.
-func NewUsers(client *instagramClient) *users {
+func NewUsers(client *InstagramClient) *users {
 	return &users{client: client}
 }
 

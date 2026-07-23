@@ -10,11 +10,11 @@ import (
 
 // Channels provides access to channels endpoints.
 type channels struct {
-	client *youTubeClient
+	client *YouTubeClient
 }
 
 // NewChannels creates a Channels endpoint group using client.
-func NewChannels(client *youTubeClient) *channels {
+func NewChannels(client *YouTubeClient) *channels {
 	return &channels{client: client}
 }
 

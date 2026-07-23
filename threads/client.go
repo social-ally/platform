@@ -21,10 +21,10 @@ var (
 )
 
 // option configures a Threads client.
-type option func(*threadsClient) error
+type option func(*ThreadsClient) error
 
-// threadsClient is the shared authenticated HTTP client for Threads endpoint groups.
-type threadsClient struct {
+// ThreadsClient is the shared authenticated HTTP client for Threads endpoint groups.
+type ThreadsClient struct {
 	httpClient   *http.Client
 	clientID     string
 	clientSecret string
@@ -55,7 +55,7 @@ func (e *APIError) Unwrap() error {
 
 // WithScopes configures the OAuth scopes requested by the client.
 func WithScopes(scopes ...Scope) option {
-	return func(client *threadsClient) error {
+	return func(client *ThreadsClient) error {
 		client.scopes = append([]Scope(nil), scopes...)
 		return nil
 	}
@@ -63,7 +63,7 @@ func WithScopes(scopes ...Scope) option {
 
 // WithHTTPClient configures the HTTP client used to execute requests.
 func WithHTTPClient(httpClient *http.Client) option {
-	return func(client *threadsClient) error {
+	return func(client *ThreadsClient) error {
 		if httpClient == nil {
 			return ErrNilHTTPClient
 		}
@@ -74,11 +74,11 @@ func WithHTTPClient(httpClient *http.Client) option {
 
 // WithAccessToken configures the bearer token for authenticated API requests.
 func WithAccessToken(accessToken string) option {
-	return func(client *threadsClient) error { client.accessToken = accessToken; return nil }
+	return func(client *ThreadsClient) error { client.accessToken = accessToken; return nil }
 }
 
 // WithAccessToken returns a copy of c configured for authenticated API requests.
-func (c *threadsClient) WithAccessToken(accessToken string) (*threadsClient, error) {
+func (c *ThreadsClient) WithAccessToken(accessToken string) (*ThreadsClient, error) {
 	if c == nil {
 		return nil, ErrNilClient
 	}
@@ -92,7 +92,7 @@ func (c *threadsClient) WithAccessToken(accessToken string) (*threadsClient, err
 }
 
 // Do implements [platform.Client].
-func (c *threadsClient) Do(request *http.Request, response any) error {
+func (c *ThreadsClient) Do(request *http.Request, response any) error {
 	if request == nil {
 		return ErrNilRequest
 	}
@@ -123,7 +123,7 @@ func (c *threadsClient) Do(request *http.Request, response any) error {
 }
 
 // NewRequest implements [platform.Client].
-func (c *threadsClient) NewRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
+func (c *ThreadsClient) NewRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
 	var reader io.Reader
 	var contentType string
 
@@ -159,7 +159,7 @@ func (c *threadsClient) NewRequest(ctx context.Context, method string, rawURL st
 	return request, nil
 }
 
-func (c *threadsClient) authenticatedRequest(ctx context.Context, method, rawURL string, body any) (*http.Request, error) {
+func (c *ThreadsClient) authenticatedRequest(ctx context.Context, method, rawURL string, body any) (*http.Request, error) {
 	if c == nil {
 		return nil, ErrNilClient
 	}
@@ -188,7 +188,7 @@ func addOptionalQuery(values url.Values, key string, value any) {
 }
 
 // NewThreadsClient creates a Threads OAuth client.
-func NewThreadsClient(clientID, clientSecret, redirectURL string, options ...option) (*threadsClient, error) {
+func NewThreadsClient(clientID, clientSecret, redirectURL string, options ...option) (*ThreadsClient, error) {
 	if clientID == "" {
 		return nil, ErrMissingClientID
 	}
@@ -199,7 +199,7 @@ func NewThreadsClient(clientID, clientSecret, redirectURL string, options ...opt
 		return nil, ErrMissingRedirectURL
 	}
 
-	client := &threadsClient{
+	client := &ThreadsClient{
 		httpClient:   http.DefaultClient,
 		clientID:     clientID,
 		clientSecret: clientSecret,
@@ -219,4 +219,4 @@ func NewThreadsClient(clientID, clientSecret, redirectURL string, options ...opt
 	return client, nil
 }
 
-var _ platform.Client = (*threadsClient)(nil)
+var _ platform.Client = (*ThreadsClient)(nil)

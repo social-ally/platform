@@ -15,11 +15,11 @@ const (
 
 // oAuth provides access to OAuth endpoints.
 type oAuth struct {
-	client *xClient
+	client *XClient
 }
 
 // NewOAuth creates an OAuth endpoint group using client.
-func NewOAuth(client *xClient) *oAuth {
+func NewOAuth(client *XClient) *oAuth {
 	return &oAuth{client: client}
 }
 

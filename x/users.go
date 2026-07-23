@@ -8,11 +8,11 @@ import (
 
 // users provides access to users endpoints.
 type users struct {
-	client *xClient
+	client *XClient
 }
 
 // NewUsers creates a users endpoint group using client.
-func NewUsers(client *xClient) *users {
+func NewUsers(client *XClient) *users {
 	return &users{client: client}
 }
 

@@ -10,11 +10,11 @@ import (
 
 // Analytics provides access to analytics endpoints.
 type analytics struct {
-	client *instagramClient
+	client *InstagramClient
 }
 
 // NewAnalytics creates a Analytics endpoint group using client.
-func NewAnalytics(client *instagramClient) *analytics {
+func NewAnalytics(client *InstagramClient) *analytics {
 	return &analytics{client: client}
 }
 

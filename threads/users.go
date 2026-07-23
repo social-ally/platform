@@ -10,11 +10,11 @@ import (
 
 // Users provides access to users endpoints.
 type users struct {
-	client *threadsClient
+	client *ThreadsClient
 }
 
 // NewUsers creates a Users endpoint group using client.
-func NewUsers(client *threadsClient) *users {
+func NewUsers(client *ThreadsClient) *users {
 	return &users{client: client}
 }
 

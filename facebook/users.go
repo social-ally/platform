@@ -10,11 +10,11 @@ import (
 
 // Users provides access to users endpoints.
 type users struct {
-	client *facebookClient
+	client *FacebookClient
 }
 
 // NewUsers creates a Users endpoint group using client.
-func NewUsers(client *facebookClient) *users {
+func NewUsers(client *FacebookClient) *users {
 	return &users{client: client}
 }
 

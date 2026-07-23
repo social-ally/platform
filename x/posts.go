@@ -9,11 +9,11 @@ import (
 
 // posts provides access to posts endpoints.
 type posts struct {
-	client *xClient
+	client *XClient
 }
 
 // NewPosts creates a posts endpoint group using client.
-func NewPosts(client *xClient) *posts {
+func NewPosts(client *XClient) *posts {
 	return &posts{client: client}
 }
 

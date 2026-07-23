@@ -10,11 +10,11 @@ import (
 
 // Pages provides access to pages endpoints.
 type pages struct {
-	client *facebookClient
+	client *FacebookClient
 }
 
 // NewPages creates a Pages endpoint group using client.
-func NewPages(client *facebookClient) *pages {
+func NewPages(client *FacebookClient) *pages {
 	return &pages{client: client}
 }
 

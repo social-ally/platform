@@ -10,11 +10,11 @@ import (
 
 // OAuth provides access to oauth endpoints.
 type oAuth struct {
-	client *instagramClient
+	client *InstagramClient
 }
 
 // NewOAuth creates a OAuth endpoint group using client.
-func NewOAuth(client *instagramClient) *oAuth {
+func NewOAuth(client *InstagramClient) *oAuth {
 	return &oAuth{client: client}
 }
 

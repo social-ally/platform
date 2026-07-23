@@ -8,11 +8,11 @@ import (
 
 // analytics provides access to analytics endpoints.
 type analytics struct {
-	client *xClient
+	client *XClient
 }
 
 // NewAnalytics creates an analytics endpoint group using client.
-func NewAnalytics(client *xClient) *analytics {
+func NewAnalytics(client *XClient) *analytics {
 	return &analytics{client: client}
 }
 

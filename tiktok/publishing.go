@@ -10,11 +10,11 @@ import (
 
 // Publishing provides access to publishing endpoints.
 type publishing struct {
-	client *tikTokClient
+	client *TikTokClient
 }
 
 // NewPublishing creates a Publishing endpoint group using client.
-func NewPublishing(client *tikTokClient) *publishing {
+func NewPublishing(client *TikTokClient) *publishing {
 	return &publishing{client: client}
 }
 

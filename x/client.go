@@ -22,10 +22,10 @@ var (
 
 type (
 	// option configures an X client.
-	option func(*xClient) error
+	option func(*XClient) error
 
-	// xClient is the shared authenticated HTTP client for X endpoint groups.
-	xClient struct {
+	// XClient is the shared authenticated HTTP client for X endpoint groups.
+	XClient struct {
 		httpClient   *http.Client
 		clientID     string
 		clientSecret string
@@ -58,7 +58,7 @@ func (e *APIError) Unwrap() error {
 
 // WithScopes configures the OAuth scopes requested by the client.
 func WithScopes(scopes ...Scope) option {
-	return func(client *xClient) error {
+	return func(client *XClient) error {
 		client.scopes = append([]Scope(nil), scopes...)
 		return nil
 	}
@@ -66,7 +66,7 @@ func WithScopes(scopes ...Scope) option {
 
 // WithHTTPClient configures the HTTP client used to execute requests.
 func WithHTTPClient(httpClient *http.Client) option {
-	return func(client *xClient) error {
+	return func(client *XClient) error {
 		if httpClient == nil {
 			return ErrNilHTTPClient
 		}
@@ -77,7 +77,7 @@ func WithHTTPClient(httpClient *http.Client) option {
 
 // WithAccessToken configures the bearer token used by authenticated API calls.
 func WithAccessToken(accessToken string) option {
-	return func(client *xClient) error {
+	return func(client *XClient) error {
 		if accessToken == "" {
 			return ErrMissingAccessToken
 		}
@@ -87,7 +87,7 @@ func WithAccessToken(accessToken string) option {
 }
 
 // WithAccessToken returns a copy of x configured for authenticated API calls.
-func (x *xClient) WithAccessToken(accessToken string) (*xClient, error) {
+func (x *XClient) WithAccessToken(accessToken string) (*XClient, error) {
 	if x == nil {
 		return nil, ErrNilClient
 	}
@@ -102,14 +102,14 @@ func (x *xClient) WithAccessToken(accessToken string) (*xClient, error) {
 
 // WithConfidentialClient configures OAuth token requests to use HTTP Basic authentication.
 func WithConfidentialClient() option {
-	return func(client *xClient) error {
+	return func(client *XClient) error {
 		client.confidential = true
 		return nil
 	}
 }
 
 // Do implements [platform.Client].
-func (x *xClient) Do(request *http.Request, response any) error {
+func (x *XClient) Do(request *http.Request, response any) error {
 	if request == nil {
 		return ErrNilRequest
 	}
@@ -140,7 +140,7 @@ func (x *xClient) Do(request *http.Request, response any) error {
 }
 
 // NewRequest implements [platform.Client].
-func (x *xClient) NewRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
+func (x *XClient) NewRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
 	var reader io.Reader
 	var contentType string
 
@@ -176,7 +176,7 @@ func (x *xClient) NewRequest(ctx context.Context, method string, rawURL string, 
 	return request, nil
 }
 
-func (x *xClient) authenticatedRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
+func (x *XClient) authenticatedRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
 	if x == nil {
 		return nil, ErrNilClient
 	}
@@ -203,7 +203,7 @@ func addOptionalQuery(values url.Values, key string, value any) {
 }
 
 // NewXClient creates an X OAuth client.
-func NewXClient(clientID, clientSecret, redirectURL string, options ...option) (*xClient, error) {
+func NewXClient(clientID, clientSecret, redirectURL string, options ...option) (*XClient, error) {
 	if clientID == "" {
 		return nil, ErrMissingClientID
 	}
@@ -211,7 +211,7 @@ func NewXClient(clientID, clientSecret, redirectURL string, options ...option) (
 		return nil, ErrMissingRedirectURL
 	}
 
-	client := &xClient{
+	client := &XClient{
 		httpClient:   http.DefaultClient,
 		clientID:     clientID,
 		clientSecret: clientSecret,
@@ -234,4 +234,4 @@ func NewXClient(clientID, clientSecret, redirectURL string, options ...option) (
 	return client, nil
 }
 
-var _ platform.Client = (*xClient)(nil)
+var _ platform.Client = (*XClient)(nil)

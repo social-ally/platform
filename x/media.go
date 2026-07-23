@@ -10,11 +10,11 @@ import (
 
 // media provides access to media endpoints.
 type media struct {
-	client *xClient
+	client *XClient
 }
 
 // NewMedia creates a media endpoint group using client.
-func NewMedia(client *xClient) *media {
+func NewMedia(client *XClient) *media {
 	return &media{client: client}
 }
 

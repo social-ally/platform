@@ -10,11 +10,11 @@ import (
 
 // OAuth provides access to oauth endpoints.
 type oAuth struct {
-	client *facebookClient
+	client *FacebookClient
 }
 
 // NewOAuth creates a OAuth endpoint group using client.
-func NewOAuth(client *facebookClient) *oAuth {
+func NewOAuth(client *FacebookClient) *oAuth {
 	return &oAuth{client: client}
 }
 

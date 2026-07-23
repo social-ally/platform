@@ -15,11 +15,11 @@ import (
 
 // Videos provides access to videos endpoints.
 type videos struct {
-	client *youTubeClient
+	client *YouTubeClient
 }
 
 // NewVideos creates a Videos endpoint group using client.
-func NewVideos(client *youTubeClient) *videos {
+func NewVideos(client *YouTubeClient) *videos {
 	return &videos{client: client}
 }
 

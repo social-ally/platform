@@ -10,11 +10,11 @@ import (
 
 // Playlists provides access to playlists endpoints.
 type playlists struct {
-	client *youTubeClient
+	client *YouTubeClient
 }
 
 // NewPlaylists creates a Playlists endpoint group using client.
-func NewPlaylists(client *youTubeClient) *playlists {
+func NewPlaylists(client *YouTubeClient) *playlists {
 	return &playlists{client: client}
 }
 

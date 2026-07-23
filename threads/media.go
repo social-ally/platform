@@ -11,11 +11,11 @@ import (
 
 // Media provides access to media endpoints.
 type media struct {
-	client *threadsClient
+	client *ThreadsClient
 }
 
 // NewMedia creates a Media endpoint group using client.
-func NewMedia(client *threadsClient) *media {
+func NewMedia(client *ThreadsClient) *media {
 	return &media{client: client}
 }
 

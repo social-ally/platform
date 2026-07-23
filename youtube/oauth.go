@@ -10,11 +10,11 @@ import (
 
 // OAuth provides access to oauth endpoints.
 type oAuth struct {
-	client *youTubeClient
+	client *YouTubeClient
 }
 
 // NewOAuth creates a OAuth endpoint group using client.
-func NewOAuth(client *youTubeClient) *oAuth {
+func NewOAuth(client *YouTubeClient) *oAuth {
 	return &oAuth{client: client}
 }
 

@@ -10,11 +10,11 @@ import (
 
 // Videos provides access to videos endpoints.
 type videos struct {
-	client *tikTokClient
+	client *TikTokClient
 }
 
 // NewVideos creates a Videos endpoint group using client.
-func NewVideos(client *tikTokClient) *videos {
+func NewVideos(client *TikTokClient) *videos {
 	return &videos{client: client}
 }
 
