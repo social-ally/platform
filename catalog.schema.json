@@ -1,0 +1,142 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://github.com/social-ally/platform/catalog.schema.json",
+  "title": "Social Platform Full Contract Catalog",
+  "type": "object",
+  "required": ["catalog_version", "platforms"],
+  "properties": {
+    "$schema": { "type": "string" },
+    "catalog_version": { "type": "string" },
+    "generated_at": { "type": "string", "format": "date" },
+    "coverage": { "type": "object" },
+    "common": { "type": "object" },
+    "platforms": {
+      "type": "object",
+      "minProperties": 1,
+      "additionalProperties": { "$ref": "#/$defs/platform" }
+    }
+  },
+  "additionalProperties": false,
+  "$defs": {
+    "platform": {
+      "type": "object",
+      "required": ["api_base_url"],
+      "properties": {
+        "display_name": { "type": "string" },
+        "api_base_url": { "type": "string", "format": "uri" },
+        "oauth_base_url": { "type": ["string", "null"], "format": "uri" },
+        "definitions": {
+          "type": "object",
+          "additionalProperties": { "$ref": "#/$defs/schema" }
+        }
+      },
+      "additionalProperties": { "$ref": "#/$defs/group" }
+    },
+    "group": {
+      "type": "object",
+      "required": ["endpoints"],
+      "properties": {
+        "scopes": { "type": "array", "items": { "type": "string" } },
+        "notes": { "type": "array", "items": { "type": "string" } },
+        "endpoints": {
+          "type": "array",
+          "items": { "$ref": "#/$defs/endpoint" }
+        }
+      },
+      "additionalProperties": true
+    },
+    "endpoint": {
+      "type": "object",
+      "required": ["id", "method", "url", "request", "responses"],
+      "properties": {
+        "id": { "type": "string", "pattern": "^[a-z0-9_]+$" },
+        "method": { "type": "string", "enum": ["GET", "POST", "PUT", "PATCH", "DELETE"] },
+        "url": { "type": "string" },
+        "scopes": { "type": "array", "items": { "type": "string" } },
+        "request": { "$ref": "#/$defs/request" },
+        "responses": {
+          "type": "object",
+          "minProperties": 1,
+          "patternProperties": {
+            "^[1-5][0-9]{2}$": { "$ref": "#/$defs/response" }
+          },
+          "additionalProperties": false
+        }
+      },
+      "additionalProperties": true
+    },
+    "request": {
+      "type": "object",
+      "required": ["authentication", "path_parameters", "query_parameters", "header_parameters", "body"],
+      "properties": {
+        "authentication": { "$ref": "#/$defs/authentication" },
+        "path_parameters": { "type": "array", "items": { "$ref": "#/$defs/parameter" } },
+        "query_parameters": { "type": "array", "items": { "$ref": "#/$defs/parameter" } },
+        "header_parameters": { "type": "array", "items": { "$ref": "#/$defs/parameter" } },
+        "body": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/body" }] }
+      },
+      "additionalProperties": false
+    },
+    "authentication": {
+      "type": "object",
+      "required": ["required", "scopes"],
+      "properties": {
+        "type": { "type": "string" },
+        "required": { "type": "boolean" },
+        "scopes": { "type": "array", "items": { "type": "string" } }
+      },
+      "additionalProperties": true
+    },
+    "parameter": {
+      "type": "object",
+      "required": ["name", "in", "required", "schema"],
+      "properties": {
+        "name": { "type": "string" },
+        "in": { "type": "string", "enum": ["path", "query", "header"] },
+        "required": { "type": "boolean" },
+        "style": { "type": "string" },
+        "explode": { "type": "boolean" },
+        "schema": { "$ref": "#/$defs/schema" }
+      },
+      "additionalProperties": true
+    },
+    "body": {
+      "type": "object",
+      "required": ["required", "content_types", "schema"],
+      "properties": {
+        "required": { "type": "boolean" },
+        "content_types": { "type": "array", "items": { "type": "string" } },
+        "schema": { "$ref": "#/$defs/schema" }
+      },
+      "additionalProperties": false
+    },
+    "response": {
+      "type": "object",
+      "required": ["description", "body"],
+      "properties": {
+        "description": { "type": "string" },
+        "headers": { "type": "object", "additionalProperties": { "$ref": "#/$defs/schema" } },
+        "body": { "oneOf": [{ "type": "null" }, { "$ref": "#/$defs/schema" }] },
+        "examples": { "type": "array" }
+      },
+      "additionalProperties": true
+    },
+    "schema": {
+      "type": "object",
+      "properties": {
+        "$ref": { "type": "string" },
+        "type": { "oneOf": [{ "type": "string" }, { "type": "array", "items": { "type": "string" } }] },
+        "format": { "type": "string" },
+        "description": { "type": "string" },
+        "enum": { "type": "array", "items": { "type": ["string", "number", "integer", "boolean", "null"] } },
+        "properties": { "type": "object", "additionalProperties": { "$ref": "#/$defs/schema" } },
+        "required": { "type": "array", "items": { "type": "string" } },
+        "items": { "$ref": "#/$defs/schema" },
+        "anyOf": { "type": "array", "items": { "$ref": "#/$defs/schema" } },
+        "oneOf": { "type": "array", "items": { "$ref": "#/$defs/schema" } },
+        "allOf": { "type": "array", "items": { "$ref": "#/$defs/schema" } }
+      },
+      "additionalProperties": true
+    }
+  }
+}
