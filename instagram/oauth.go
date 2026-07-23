@@ -68,9 +68,9 @@ type (
 	}
 
 	ResponseExchangeCodeSuccess struct {
-		AccessToken string  `json:"access_token"`
-		UserID      int     `json:"user_id"`
-		Permissions *string `json:"permissions"`
+		AccessToken string `json:"access_token"`
+		UserID      int    `json:"user_id"`
+		Permissions any    `json:"permissions"`
 	}
 
 	ResponseExchangeCode struct {

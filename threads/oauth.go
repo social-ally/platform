@@ -61,7 +61,7 @@ type (
 
 	ResponseExchangeCodeSuccess struct {
 		AccessToken string `json:"access_token"`
-		UserID      string `json:"user_id"`
+		UserID      int    `json:"user_id"`
 	}
 
 	ResponseExchangeCode struct {
