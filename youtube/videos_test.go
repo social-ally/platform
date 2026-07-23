@@ -32,7 +32,7 @@ func TestUploadVideoSendsMultipartMedia(t *testing.T) {
 	if err != nil {
 		t.Fatal(err)
 	}
-	_, err = NewVideos(client).UploadVideo(context.Background(), &RequestUploadVideo{Query: RequestUploadVideoQuery{Part: "snippet,status"}, Body: RequestUploadVideoBody{Snippet: RequestUploadVideoBodySnippet{Title: "title"}}, Media: strings.NewReader("video bytes")})
+	_, err = NewVideos(client).UploadVideo(context.Background(), &RequestUploadVideo{Query: RequestUploadVideoQuery{Part: []VideoPart{VideoPartSnippet, VideoPartStatus}}, Body: RequestUploadVideoBody{Snippet: RequestUploadVideoBodySnippet{Title: "title"}}, Media: strings.NewReader("video bytes")})
 	if err != nil {
 		t.Fatal(err)
 	}

@@ -20,7 +20,7 @@ func NewUsers(client *TikTokClient) *users {
 
 type (
 	RequestQueryUserInfoQuery struct {
-		Fields any `json:"fields"`
+		Fields []UserField `json:"fields"`
 	}
 
 	RequestQueryUserInfo struct {
@@ -31,6 +31,8 @@ type (
 		OpenID          string `json:"open_id"`
 		UnionID         string `json:"union_id"`
 		AvatarURL       string `json:"avatar_url"`
+		AvatarURL100    string `json:"avatar_url_100"`
+		AvatarLargeURL  string `json:"avatar_large_url"`
 		DisplayName     string `json:"display_name"`
 		BioDescription  string `json:"bio_description"`
 		ProfileDeepLink string `json:"profile_deep_link"`
@@ -47,8 +49,8 @@ type (
 	}
 
 	ResponseQueryUserInfoSuccessError struct {
-		Code    any    `json:"code"`
-		Message any    `json:"message"`
+		Code    string `json:"code"`
+		Message string `json:"message"`
 		LogID   string `json:"log_id"`
 	}
 

@@ -25,9 +25,9 @@ type (
 	}
 
 	RequestListUserThreadsQuery struct {
-		Fields any     `json:"fields"`
-		Limit  int     `json:"limit"`
-		After  *string `json:"after"`
+		Fields []ThreadField `json:"fields"`
+		Limit  int           `json:"limit"`
+		After  *string       `json:"after"`
 	}
 
 	RequestListUserThreads struct {
@@ -36,10 +36,22 @@ type (
 	}
 
 	ResponseListUserThreadsSuccessDataItem struct {
-		ID        string `json:"id"`
-		MediaType string `json:"media_type"`
-		Text      string `json:"text"`
-		Permalink string `json:"permalink"`
+		ID               string    `json:"id"`
+		MediaType        MediaType `json:"media_type"`
+		Text             string    `json:"text"`
+		Permalink        string    `json:"permalink"`
+		MediaProductType string    `json:"media_product_type"`
+		MediaURL         string    `json:"media_url"`
+		Owner            any       `json:"owner"`
+		Username         string    `json:"username"`
+		Timestamp        string    `json:"timestamp"`
+		Shortcode        string    `json:"shortcode"`
+		ThumbnailURL     string    `json:"thumbnail_url"`
+		Children         any       `json:"children"`
+		IsQuotePost      bool      `json:"is_quote_post"`
+		QuotedPost       any       `json:"quoted_post"`
+		RepostedPost     any       `json:"reposted_post"`
+		ReplyAudience    string    `json:"reply_audience"`
 	}
 
 	ResponseListUserThreadsSuccessPaging struct {

@@ -25,14 +25,14 @@ func NewVideos(client *YouTubeClient) *videos {
 
 type (
 	RequestUploadVideoQuery struct {
-		Part       any        `json:"part"`
-		UploadType UploadType `json:"uploadType"`
+		Part       []VideoPart `json:"part"`
+		UploadType UploadType  `json:"uploadType"`
 	}
 
 	RequestUploadVideoHeaders struct {
-		ContentType          any `json:"Content-Type"`
-		XUploadContentType   any `json:"X-Upload-Content-Type"`
-		XUploadContentLength int `json:"X-Upload-Content-Length"`
+		ContentType          MetadataContentType    `json:"Content-Type"`
+		XUploadContentType   VideoUploadContentType `json:"X-Upload-Content-Type"`
+		XUploadContentLength int                    `json:"X-Upload-Content-Length"`
 	}
 
 	RequestUploadVideoBodySnippet struct {
@@ -45,7 +45,7 @@ type (
 
 	RequestUploadVideoBodyStatus struct {
 		PrivacyStatus           PrivacyStatus `json:"privacyStatus"`
-		PublishAt               any           `json:"publishAt"`
+		PublishAt               *string       `json:"publishAt"`
 		SelfDeclaredMadeForKids *bool         `json:"selfDeclaredMadeForKids"`
 		ContainsSyntheticMedia  *bool         `json:"containsSyntheticMedia"`
 	}
@@ -70,7 +70,7 @@ type (
 
 	ResponseUploadVideoSuccess struct {
 		ID      string                            `json:"id"`
-		Kind    any                               `json:"kind"`
+		Kind    string                            `json:"kind"`
 		Snippet ResponseUploadVideoSuccessSnippet `json:"snippet"`
 		Status  ResponseUploadVideoSuccessStatus  `json:"status"`
 	}
@@ -80,11 +80,11 @@ type (
 	}
 
 	RequestListVideosQuery struct {
-		Part       any     `json:"part"`
-		ID         any     `json:"id"`
-		Mine       *bool   `json:"mine"`
-		MaxResults int     `json:"maxResults"`
-		PageToken  *string `json:"pageToken"`
+		Part       []VideoPart `json:"part"`
+		ID         []string    `json:"id"`
+		Mine       *bool       `json:"mine"`
+		MaxResults int         `json:"maxResults"`
+		PageToken  *string     `json:"pageToken"`
 	}
 
 	RequestListVideos struct {
@@ -120,7 +120,7 @@ type (
 	}
 
 	RequestUpdateVideoQuery struct {
-		Part any `json:"part"`
+		Part []VideoPart `json:"part"`
 	}
 
 	RequestUpdateVideoBodySnippet struct {
@@ -131,7 +131,7 @@ type (
 
 	RequestUpdateVideoBodyStatus struct {
 		PrivacyStatus PrivacyStatus `json:"privacyStatus"`
-		PublishAt     any           `json:"publishAt"`
+		PublishAt     *string       `json:"publishAt"`
 	}
 
 	RequestUpdateVideoBody struct {
@@ -274,10 +274,10 @@ func (s *videos) DeleteVideo(ctx context.Context, request *RequestDeleteVideo) (
 }
 
 func setUploadHeaders(request *http.Request, headers RequestUploadVideoHeaders) {
-	if headers.ContentType != nil {
+	if headers.ContentType != "" {
 		request.Header.Set("Content-Type", stringValue(headers.ContentType))
 	}
-	if headers.XUploadContentType != nil {
+	if headers.XUploadContentType != "" {
 		request.Header.Set("X-Upload-Content-Type", stringValue(headers.XUploadContentType))
 	}
 	if headers.XUploadContentLength != 0 {

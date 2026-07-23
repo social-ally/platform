@@ -20,10 +20,10 @@ func NewAnalytics(client *YouTubeClient) *analytics {
 
 type (
 	RequestQueryChannelAnalyticsQuery struct {
-		Ids        any                `json:"ids"`
-		StartDate  any                `json:"startDate"`
-		EndDate    any                `json:"endDate"`
-		Metrics    any                `json:"metrics"`
+		Ids        string             `json:"ids"`
+		StartDate  string             `json:"startDate"`
+		EndDate    string             `json:"endDate"`
+		Metrics    []string           `json:"metrics"`
 		Dimensions AnalyticsDimension `json:"dimensions"`
 		Filters    *string            `json:"filters"`
 		Sort       *string            `json:"sort"`

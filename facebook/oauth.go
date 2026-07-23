@@ -24,7 +24,7 @@ type (
 		RedirectUri  string  `json:"redirect_uri"`
 		State        string  `json:"state"`
 		Scopes       []Scope `json:"scope"`
-		ResponseType any     `json:"response_type"`
+		ResponseType string  `json:"response_type"`
 	}
 
 	RequestAuthorize struct {
@@ -61,7 +61,7 @@ type (
 
 	ResponseExchangeCodeSuccess struct {
 		AccessToken string `json:"access_token"`
-		TokenType   any    `json:"token_type"`
+		TokenType   string `json:"token_type"`
 		ExpiresIn   int    `json:"expires_in"`
 	}
 
@@ -70,10 +70,10 @@ type (
 	}
 
 	RequestExchangeLongLivedUserTokenQuery struct {
-		GrantType       any    `json:"grant_type"`
+		GrantType       string `json:"grant_type"`
 		ClientID        string `json:"client_id"`
 		ClientSecret    string `json:"client_secret"`
-		FbExchangeToken any    `json:"fb_exchange_token"`
+		FbExchangeToken string `json:"fb_exchange_token"`
 	}
 
 	RequestExchangeLongLivedUserToken struct {
@@ -82,7 +82,7 @@ type (
 
 	ResponseExchangeLongLivedUserTokenSuccess struct {
 		AccessToken string `json:"access_token"`
-		TokenType   any    `json:"token_type"`
+		TokenType   string `json:"token_type"`
 		ExpiresIn   int    `json:"expires_in"`
 	}
 
@@ -91,8 +91,8 @@ type (
 	}
 
 	RequestDebugTokenQuery struct {
-		InputToken  any `json:"input_token"`
-		AccessToken any `json:"access_token"`
+		InputToken  string `json:"input_token"`
+		AccessToken string `json:"access_token"`
 	}
 
 	RequestDebugToken struct {
@@ -139,7 +139,7 @@ func (s *oAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*Resp
 	if len(query.Scopes) == 0 {
 		return nil, ErrMissingScopes
 	}
-	if query.ResponseType == nil {
+	if query.ResponseType == "" {
 		query.ResponseType = "code"
 	}
 	values := url.Values{"client_id": {query.ClientID}, "redirect_uri": {query.RedirectUri}, "scope": {scopeValue(query.Scopes)}, "response_type": {stringValue(query.ResponseType)}}
@@ -185,7 +185,7 @@ func (s *oAuth) ExchangeLongLivedUserToken(ctx context.Context, request *Request
 		return nil, ErrNilEndpointRequest
 	}
 	query := request.Query
-	if query.FbExchangeToken == nil {
+	if query.FbExchangeToken == "" {
 		return nil, ErrMissingAccessToken
 	}
 	if query.ClientID == "" {
@@ -194,7 +194,7 @@ func (s *oAuth) ExchangeLongLivedUserToken(ctx context.Context, request *Request
 	if query.ClientSecret == "" {
 		query.ClientSecret = s.client.clientSecret
 	}
-	if query.GrantType == nil {
+	if query.GrantType == "" {
 		query.GrantType = "fb_exchange_token"
 	}
 	values := url.Values{"grant_type": {stringValue(query.GrantType)}, "client_id": {query.ClientID}, "client_secret": {query.ClientSecret}, "fb_exchange_token": {stringValue(query.FbExchangeToken)}}
@@ -215,7 +215,7 @@ func (s *oAuth) DebugToken(ctx context.Context, request *RequestDebugToken) (*Re
 		return nil, ErrNilEndpointRequest
 	}
 	query := request.Query
-	if query.InputToken == nil || query.AccessToken == nil {
+	if query.InputToken == "" || query.AccessToken == "" {
 		return nil, ErrMissingAccessToken
 	}
 	values := url.Values{"input_token": {stringValue(query.InputToken)}, "access_token": {stringValue(query.AccessToken)}}

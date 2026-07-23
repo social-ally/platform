@@ -22,12 +22,12 @@ type (
 	RequestAuthorizeQuery struct {
 		ClientID             string  `json:"client_id"`
 		RedirectUri          string  `json:"redirect_uri"`
-		ResponseType         any     `json:"response_type"`
+		ResponseType         string  `json:"response_type"`
 		Scopes               []Scope `json:"scope"`
 		State                string  `json:"state"`
-		AccessType           any     `json:"access_type"`
-		IncludeGrantedScopes any     `json:"include_granted_scopes"`
-		Prompt               any     `json:"prompt"`
+		AccessType           string  `json:"access_type"`
+		IncludeGrantedScopes *bool   `json:"include_granted_scopes"`
+		Prompt               string  `json:"prompt"`
 	}
 
 	RequestAuthorize struct {
@@ -50,14 +50,14 @@ type (
 	}
 
 	RequestExchangeCodeHeaders struct {
-		ContentType any `json:"Content-Type"`
+		ContentType string `json:"Content-Type"`
 	}
 
 	RequestExchangeCodeBody struct {
 		ClientID     string  `json:"client_id"`
 		ClientSecret string  `json:"client_secret"`
 		Code         string  `json:"code"`
-		GrantType    any     `json:"grant_type"`
+		GrantType    string  `json:"grant_type"`
 		RedirectUri  string  `json:"redirect_uri"`
 		CodeVerifier *string `json:"code_verifier"`
 	}
@@ -72,7 +72,7 @@ type (
 		ExpiresIn    int     `json:"expires_in"`
 		RefreshToken *string `json:"refresh_token"`
 		Scope        string  `json:"scope"`
-		TokenType    any     `json:"token_type"`
+		TokenType    string  `json:"token_type"`
 		IDToken      *string `json:"id_token"`
 	}
 
@@ -81,14 +81,14 @@ type (
 	}
 
 	RequestRefreshTokenHeaders struct {
-		ContentType any `json:"Content-Type"`
+		ContentType string `json:"Content-Type"`
 	}
 
 	RequestRefreshTokenBody struct {
 		ClientID     string `json:"client_id"`
 		ClientSecret string `json:"client_secret"`
 		RefreshToken string `json:"refresh_token"`
-		GrantType    any    `json:"grant_type"`
+		GrantType    string `json:"grant_type"`
 	}
 
 	RequestRefreshToken struct {
@@ -100,7 +100,7 @@ type (
 		AccessToken string `json:"access_token"`
 		ExpiresIn   int    `json:"expires_in"`
 		Scope       string `json:"scope"`
-		TokenType   any    `json:"token_type"`
+		TokenType   string `json:"token_type"`
 	}
 
 	ResponseRefreshToken struct {
@@ -108,7 +108,7 @@ type (
 	}
 
 	RequestRevokeTokenHeaders struct {
-		ContentType any `json:"Content-Type"`
+		ContentType string `json:"Content-Type"`
 	}
 
 	RequestRevokeTokenBody struct {
@@ -150,20 +150,20 @@ func (s *oAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*Resp
 	if len(query.Scopes) == 0 {
 		return nil, ErrMissingScopes
 	}
-	if query.ResponseType == nil {
+	if query.ResponseType == "" {
 		query.ResponseType = "code"
 	}
 	values := url.Values{"client_id": {query.ClientID}, "redirect_uri": {query.RedirectUri}, "scope": {scopeValue(query.Scopes)}, "response_type": {stringValue(query.ResponseType)}}
 	if query.State != "" {
 		values.Set("state", query.State)
 	}
-	if query.AccessType != nil {
+	if query.AccessType != "" {
 		values.Set("access_type", stringValue(query.AccessType))
 	}
 	if query.IncludeGrantedScopes != nil {
 		values.Set("include_granted_scopes", stringValue(query.IncludeGrantedScopes))
 	}
-	if query.Prompt != nil {
+	if query.Prompt != "" {
 		values.Set("prompt", stringValue(query.Prompt))
 	}
 	return &ResponseAuthorize{URL: AuthorizationBaseURL + "/auth?" + values.Encode()}, nil
@@ -187,7 +187,7 @@ func (s *oAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) 
 	if body.RedirectUri == "" {
 		body.RedirectUri = s.client.redirectURL
 	}
-	if body.GrantType == nil {
+	if body.GrantType == "" {
 		body.GrantType = "authorization_code"
 	}
 	values := url.Values{"client_id": {body.ClientID}, "client_secret": {body.ClientSecret}, "code": {body.Code}, "grant_type": {stringValue(body.GrantType)}, "redirect_uri": {body.RedirectUri}}
@@ -220,7 +220,7 @@ func (s *oAuth) RefreshToken(ctx context.Context, request *RequestRefreshToken) 
 	if body.ClientSecret == "" {
 		body.ClientSecret = s.client.clientSecret
 	}
-	if body.GrantType == nil {
+	if body.GrantType == "" {
 		body.GrantType = "refresh_token"
 	}
 	values := url.Values{"client_id": {body.ClientID}, "client_secret": {body.ClientSecret}, "refresh_token": {body.RefreshToken}, "grant_type": {stringValue(body.GrantType)}}

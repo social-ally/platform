@@ -20,8 +20,8 @@ func NewChannels(client *YouTubeClient) *channels {
 
 type (
 	RequestGetMyChannelsQuery struct {
-		Part any  `json:"part"`
-		Mine bool `json:"mine"`
+		Part []ChannelPart `json:"part"`
+		Mine bool          `json:"mine"`
 	}
 
 	RequestGetMyChannels struct {
@@ -51,7 +51,7 @@ type (
 	}
 
 	ResponseGetMyChannelsSuccess struct {
-		Kind  any                                     `json:"kind"`
+		Kind  string                                  `json:"kind"`
 		Items []ResponseGetMyChannelsSuccessItemsItem `json:"items"`
 	}
 

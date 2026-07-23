@@ -20,7 +20,7 @@ func NewVideos(client *TikTokClient) *videos {
 
 type (
 	RequestListUserVideosQuery struct {
-		Fields any `json:"fields"`
+		Fields []VideoField `json:"fields"`
 	}
 
 	RequestListUserVideosBody struct {
@@ -40,6 +40,11 @@ type (
 		ShareURL         string `json:"share_url"`
 		VideoDescription string `json:"video_description"`
 		Duration         int    `json:"duration"`
+		Height           int    `json:"height"`
+		Width            int    `json:"width"`
+		Title            string `json:"title"`
+		EmbedHTML        string `json:"embed_html"`
+		EmbedLink        string `json:"embed_link"`
 		LikeCount        int    `json:"like_count"`
 		CommentCount     int    `json:"comment_count"`
 		ShareCount       int    `json:"share_count"`
@@ -53,8 +58,8 @@ type (
 	}
 
 	ResponseListUserVideosSuccessError struct {
-		Code    any    `json:"code"`
-		Message any    `json:"message"`
+		Code    string `json:"code"`
+		Message string `json:"message"`
 		LogID   string `json:"log_id"`
 	}
 
@@ -68,7 +73,7 @@ type (
 	}
 
 	RequestQueryVideosQuery struct {
-		Fields any `json:"fields"`
+		Fields []VideoField `json:"fields"`
 	}
 
 	RequestQueryVideosBodyFilters struct {
@@ -85,7 +90,21 @@ type (
 	}
 
 	ResponseQueryVideosSuccessDataVideosItem struct {
-		ID string `json:"id"`
+		ID               string `json:"id"`
+		CreateTime       int    `json:"create_time"`
+		CoverImageURL    string `json:"cover_image_url"`
+		ShareURL         string `json:"share_url"`
+		VideoDescription string `json:"video_description"`
+		Duration         int    `json:"duration"`
+		Height           int    `json:"height"`
+		Width            int    `json:"width"`
+		Title            string `json:"title"`
+		EmbedHTML        string `json:"embed_html"`
+		EmbedLink        string `json:"embed_link"`
+		LikeCount        int    `json:"like_count"`
+		CommentCount     int    `json:"comment_count"`
+		ShareCount       int    `json:"share_count"`
+		ViewCount        int    `json:"view_count"`
 	}
 
 	ResponseQueryVideosSuccessData struct {
@@ -93,8 +112,8 @@ type (
 	}
 
 	ResponseQueryVideosSuccessError struct {
-		Code    any    `json:"code"`
-		Message any    `json:"message"`
+		Code    string `json:"code"`
+		Message string `json:"message"`
 		LogID   string `json:"log_id"`
 	}
 

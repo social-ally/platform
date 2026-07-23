@@ -1,5 +1,3 @@
-// Code generated from social_media_api_catalog.json; DO NOT EDIT.
-
 package facebook
 
 import (
@@ -20,7 +18,7 @@ func NewUsers(client *FacebookClient) *users {
 
 type (
 	RequestGetMeQuery struct {
-		Fields any `json:"fields"`
+		Fields []UserField `json:"fields"`
 	}
 
 	RequestGetMe struct {
@@ -28,13 +26,20 @@ type (
 	}
 
 	ResponseGetMeSuccessPicture struct {
+		URL          string `json:"url"`
+		Height       int    `json:"height"`
+		Width        int    `json:"width"`
+		IsSilhouette bool   `json:"is_silhouette"`
 	}
 
 	ResponseGetMeSuccess struct {
-		ID      string                      `json:"id"`
-		Name    string                      `json:"name"`
-		Email   *string                     `json:"email"`
-		Picture ResponseGetMeSuccessPicture `json:"picture"`
+		ID        string                      `json:"id"`
+		Name      string                      `json:"name"`
+		FirstName string                      `json:"first_name"`
+		LastName  string                      `json:"last_name"`
+		Email     *string                     `json:"email"`
+		Link      string                      `json:"link"`
+		Picture   ResponseGetMeSuccessPicture `json:"picture"`
 	}
 
 	ResponseGetMe struct {

@@ -22,7 +22,7 @@ type (
 	}
 
 	RequestGetPostMetricsQuery struct {
-		TweetFields any `json:"tweet.fields"`
+		TweetFields []TweetField `json:"tweet.fields"`
 	}
 
 	RequestGetPostMetrics struct {
@@ -30,22 +30,12 @@ type (
 		Query RequestGetPostMetricsQuery `json:"query"`
 	}
 
-	ResponseGetPostMetricsSuccessDataPublicMetrics struct {
-		RetweetCount    int `json:"retweet_count"`
-		ReplyCount      int `json:"reply_count"`
-		LikeCount       int `json:"like_count"`
-		QuoteCount      int `json:"quote_count"`
-		BookmarkCount   int `json:"bookmark_count"`
-		ImpressionCount int `json:"impression_count"`
-	}
-
-	ResponseGetPostMetricsSuccessData struct {
-		ID            string                                         `json:"id"`
-		PublicMetrics ResponseGetPostMetricsSuccessDataPublicMetrics `json:"public_metrics"`
-	}
+	ResponseGetPostMetricsSuccessData = Tweet
 
 	ResponseGetPostMetricsSuccess struct {
-		Data ResponseGetPostMetricsSuccessData `json:"data"`
+		Data     ResponseGetPostMetricsSuccessData `json:"data"`
+		Errors   []Problem                         `json:"errors"`
+		Includes *Includes                         `json:"includes"`
 	}
 
 	ResponseGetPostMetrics struct {
@@ -71,11 +61,9 @@ func (s *analytics) GetPostMetrics(ctx context.Context, request *RequestGetPostM
 	if err != nil {
 		return nil, err
 	}
-	var raw struct {
-		Data ResponseGetPostMetricsSuccessData `json:"data"`
-	}
+	var raw ResponseGetPostMetricsSuccess
 	if err := s.client.Do(httpRequest, &raw); err != nil {
 		return nil, err
 	}
-	return &ResponseGetPostMetrics{Success: ResponseGetPostMetricsSuccess{Data: raw.Data}}, nil
+	return &ResponseGetPostMetrics{Success: raw}, nil
 }

@@ -53,7 +53,7 @@ type (
 	}
 
 	RequestExchangeCodeHeaders struct {
-		ContentType any `json:"Content-Type"`
+		ContentType string `json:"Content-Type"`
 	}
 
 	RequestExchangeCodeBody struct {
@@ -92,7 +92,7 @@ type (
 	}
 
 	RequestRefreshTokenHeaders struct {
-		ContentType any `json:"Content-Type"`
+		ContentType string `json:"Content-Type"`
 	}
 
 	RequestRefreshTokenBody struct {
@@ -122,7 +122,7 @@ type (
 	}
 
 	RequestRevokeTokenHeaders struct {
-		ContentType any `json:"Content-Type"`
+		ContentType string `json:"Content-Type"`
 	}
 
 	RequestRevokeTokenBody struct {

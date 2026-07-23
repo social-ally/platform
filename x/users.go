@@ -18,31 +18,19 @@ func NewUsers(client *XClient) *users {
 
 type (
 	RequestGetAuthenticatedUserQuery struct {
-		UserFields any `json:"user.fields"`
+		UserFields []UserField `json:"user.fields"`
 	}
 
 	RequestGetAuthenticatedUser struct {
 		Query RequestGetAuthenticatedUserQuery `json:"query"`
 	}
 
-	ResponseGetAuthenticatedUserSuccessDataPublicMetrics struct {
-		FollowersCount int `json:"followers_count"`
-		FollowingCount int `json:"following_count"`
-		TweetCount     int `json:"tweet_count"`
-		ListedCount    int `json:"listed_count"`
-	}
-
-	ResponseGetAuthenticatedUserSuccessData struct {
-		ID              string                                               `json:"id"`
-		Name            string                                               `json:"name"`
-		Username        string                                               `json:"username"`
-		ProfileImageURL string                                               `json:"profile_image_url"`
-		Description     string                                               `json:"description"`
-		PublicMetrics   ResponseGetAuthenticatedUserSuccessDataPublicMetrics `json:"public_metrics"`
-	}
+	ResponseGetAuthenticatedUserSuccessData = User
 
 	ResponseGetAuthenticatedUserSuccess struct {
-		Data ResponseGetAuthenticatedUserSuccessData `json:"data"`
+		Data     ResponseGetAuthenticatedUserSuccessData `json:"data"`
+		Errors   []Problem                               `json:"errors"`
+		Includes *Includes                               `json:"includes"`
 	}
 
 	ResponseGetAuthenticatedUser struct {
@@ -54,7 +42,7 @@ type (
 	}
 
 	RequestGetUserByIDQuery struct {
-		UserFields any `json:"user.fields"`
+		UserFields []UserField `json:"user.fields"`
 	}
 
 	RequestGetUserByID struct {
@@ -62,14 +50,12 @@ type (
 		Query RequestGetUserByIDQuery `json:"query"`
 	}
 
-	ResponseGetUserByIDSuccessData struct {
-		ID       string `json:"id"`
-		Name     string `json:"name"`
-		Username string `json:"username"`
-	}
+	ResponseGetUserByIDSuccessData = User
 
 	ResponseGetUserByIDSuccess struct {
-		Data ResponseGetUserByIDSuccessData `json:"data"`
+		Data     ResponseGetUserByIDSuccessData `json:"data"`
+		Errors   []Problem                      `json:"errors"`
+		Includes *Includes                      `json:"includes"`
 	}
 
 	ResponseGetUserByID struct {
@@ -94,13 +80,11 @@ func (s *users) GetAuthenticatedUser(ctx context.Context, request *RequestGetAut
 	if err != nil {
 		return nil, err
 	}
-	var raw struct {
-		Data ResponseGetAuthenticatedUserSuccessData `json:"data"`
-	}
+	var raw ResponseGetAuthenticatedUserSuccess
 	if err := s.client.Do(httpRequest, &raw); err != nil {
 		return nil, err
 	}
-	return &ResponseGetAuthenticatedUser{Success: ResponseGetAuthenticatedUserSuccess{Data: raw.Data}}, nil
+	return &ResponseGetAuthenticatedUser{Success: raw}, nil
 }
 
 // GetUserByID calls GET https://api.x.com/2/users/{id}.
@@ -121,11 +105,9 @@ func (s *users) GetUserByID(ctx context.Context, request *RequestGetUserByID) (*
 	if err != nil {
 		return nil, err
 	}
-	var raw struct {
-		Data ResponseGetUserByIDSuccessData `json:"data"`
-	}
+	var raw ResponseGetUserByIDSuccess
 	if err := s.client.Do(httpRequest, &raw); err != nil {
 		return nil, err
 	}
-	return &ResponseGetUserByID{Success: ResponseGetUserByIDSuccess{Data: raw.Data}}, nil
+	return &ResponseGetUserByID{Success: raw}, nil
 }

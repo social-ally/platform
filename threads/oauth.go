@@ -43,7 +43,7 @@ type (
 	}
 
 	RequestExchangeCodeHeaders struct {
-		ContentType any `json:"Content-Type"`
+		ContentType string `json:"Content-Type"`
 	}
 
 	RequestExchangeCodeBody struct {

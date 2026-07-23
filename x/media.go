@@ -20,7 +20,7 @@ func NewMedia(client *XClient) *media {
 
 type (
 	RequestUploadMediaHeaders struct {
-		ContentType any `json:"Content-Type"`
+		ContentType string `json:"Content-Type"`
 	}
 
 	RequestUploadMediaBody struct {
@@ -38,6 +38,8 @@ type (
 		ID               string `json:"id"`
 		MediaKey         string `json:"media_key"`
 		ExpiresAfterSecs int    `json:"expires_after_secs"`
+		Size             *int   `json:"size"`
+		ProcessingInfo   any    `json:"processing_info"`
 	}
 
 	ResponseUploadMediaSuccess struct {

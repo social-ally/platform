@@ -20,8 +20,8 @@ func NewUsers(client *InstagramClient) *users {
 
 type (
 	RequestGetMeQuery struct {
-		Fields      any    `json:"fields"`
-		AccessToken string `json:"access_token"`
+		Fields      []UserField `json:"fields"`
+		AccessToken string      `json:"access_token"`
 	}
 
 	RequestGetMe struct {
@@ -38,6 +38,8 @@ type (
 		FollowersCount    int         `json:"followers_count"`
 		FollowsCount      int         `json:"follows_count"`
 		MediaCount        int         `json:"media_count"`
+		Biography         string      `json:"biography"`
+		Website           string      `json:"website"`
 	}
 
 	ResponseGetMe struct {

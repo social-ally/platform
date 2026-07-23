@@ -19,6 +19,14 @@ func stringValue(value any) string {
 		}
 		return strings.Join(values, ",")
 	default:
+		reflected := reflect.ValueOf(value)
+		if reflected.IsValid() && (reflected.Kind() == reflect.Slice || reflected.Kind() == reflect.Array) {
+			values := make([]string, reflected.Len())
+			for index := range values {
+				values[index] = fmt.Sprint(reflected.Index(index).Interface())
+			}
+			return strings.Join(values, ",")
+		}
 		return fmt.Sprint(value)
 	}
 }

@@ -20,7 +20,7 @@ func NewPlaylists(client *YouTubeClient) *playlists {
 
 type (
 	RequestCreatePlaylistQuery struct {
-		Part any `json:"part"`
+		Part []PlaylistPart `json:"part"`
 	}
 
 	RequestCreatePlaylistBodySnippet struct {
@@ -59,11 +59,11 @@ type (
 	}
 
 	RequestAddVideoToPlaylistQuery struct {
-		Part any `json:"part"`
+		Part []PlaylistItemPart `json:"part"`
 	}
 
 	RequestAddVideoToPlaylistBodySnippetResourceId struct {
-		Kind    any    `json:"kind"`
+		Kind    string `json:"kind"`
 		VideoId string `json:"videoId"`
 	}
 

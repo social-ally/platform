@@ -34,7 +34,7 @@ type (
 		ScheduledPublishTime any                                          `json:"scheduled_publish_time"`
 		BackdatedTime        any                                          `json:"backdated_time"`
 		AttachedMedia        []RequestCreateFeedPostBodyAttachedMediaItem `json:"attached_media"`
-		AccessToken          any                                          `json:"access_token"`
+		AccessToken          string                                       `json:"access_token"`
 	}
 
 	RequestCreateFeedPost struct {
@@ -43,7 +43,7 @@ type (
 	}
 
 	ResponseCreateFeedPostSuccess struct {
-		ID any `json:"id"`
+		ID string `json:"id"`
 	}
 
 	ResponseCreateFeedPost struct {
@@ -60,7 +60,7 @@ type (
 		Caption              *string `json:"caption"`
 		Published            *bool   `json:"published"`
 		ScheduledPublishTime any     `json:"scheduled_publish_time"`
-		AccessToken          any     `json:"access_token"`
+		AccessToken          string  `json:"access_token"`
 	}
 
 	RequestUploadPhoto struct {
@@ -69,7 +69,7 @@ type (
 	}
 
 	ResponseUploadPhotoSuccess struct {
-		ID     any     `json:"id"`
+		ID     string  `json:"id"`
 		PostID *string `json:"post_id"`
 	}
 
@@ -82,9 +82,9 @@ type (
 	}
 
 	RequestStartVideoUploadBody struct {
-		UploadPhase any `json:"upload_phase"`
-		FileSize    int `json:"file_size"`
-		AccessToken any `json:"access_token"`
+		UploadPhase string `json:"upload_phase"`
+		FileSize    int    `json:"file_size"`
+		AccessToken string `json:"access_token"`
 	}
 
 	RequestStartVideoUpload struct {
@@ -104,10 +104,10 @@ type (
 	}
 
 	RequestTransferVideoChunkBody struct {
-		UploadPhase     any    `json:"upload_phase"`
+		UploadPhase     string `json:"upload_phase"`
 		UploadSessionID string `json:"upload_session_id"`
 		StartOffset     string `json:"start_offset"`
-		VideoFileChunk  any    `json:"video_file_chunk"`
+		VideoFileChunk  string `json:"video_file_chunk"`
 	}
 
 	RequestTransferVideoChunk struct {
@@ -125,7 +125,7 @@ type (
 	}
 
 	RequestFinishVideoUploadBody struct {
-		UploadPhase          any     `json:"upload_phase"`
+		UploadPhase          string  `json:"upload_phase"`
 		UploadSessionID      string  `json:"upload_session_id"`
 		Title                *string `json:"title"`
 		Description          *string `json:"description"`

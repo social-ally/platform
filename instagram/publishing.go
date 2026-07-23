@@ -24,14 +24,14 @@ type (
 	}
 
 	RequestCreateMediaContainerBody struct {
-		ImageURL       any                 `json:"image_url"`
-		VideoURL       any                 `json:"video_url"`
+		ImageURL       string              `json:"image_url"`
+		VideoURL       string              `json:"video_url"`
 		MediaType      PublishingMediaType `json:"media_type"`
 		Caption        *string             `json:"caption"`
 		ShareToFeed    *bool               `json:"share_to_feed"`
-		CoverURL       any                 `json:"cover_url"`
+		CoverURL       string              `json:"cover_url"`
 		ThumbOffset    *int                `json:"thumb_offset"`
-		Children       []any               `json:"children"`
+		Children       []string            `json:"children"`
 		IsCarouselItem *bool               `json:"is_carousel_item"`
 		IsAiGenerated  *bool               `json:"is_ai_generated"`
 		AccessToken    string              `json:"access_token"`
@@ -55,8 +55,8 @@ type (
 	}
 
 	RequestGetContainerStatusQuery struct {
-		Fields      any    `json:"fields"`
-		AccessToken string `json:"access_token"`
+		Fields      []MediaField `json:"fields"`
+		AccessToken string       `json:"access_token"`
 	}
 
 	RequestGetContainerStatus struct {
@@ -101,8 +101,8 @@ type (
 	}
 
 	RequestGetPublishingLimitQuery struct {
-		Fields      any    `json:"fields"`
-		AccessToken string `json:"access_token"`
+		Fields      []string `json:"fields"`
+		AccessToken string   `json:"access_token"`
 	}
 
 	RequestGetPublishingLimit struct {

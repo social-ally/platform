@@ -24,7 +24,7 @@ type (
 		ForceAuthentication int     `json:"force_authentication"`
 		ClientID            string  `json:"client_id"`
 		RedirectUri         string  `json:"redirect_uri"`
-		ResponseType        any     `json:"response_type"`
+		ResponseType        string  `json:"response_type"`
 		Scopes              []Scope `json:"scope"`
 		State               string  `json:"state"`
 	}
@@ -51,13 +51,13 @@ type (
 	}
 
 	RequestExchangeCodeHeaders struct {
-		ContentType any `json:"Content-Type"`
+		ContentType string `json:"Content-Type"`
 	}
 
 	RequestExchangeCodeBody struct {
 		ClientID     string `json:"client_id"`
 		ClientSecret string `json:"client_secret"`
-		GrantType    any    `json:"grant_type"`
+		GrantType    string `json:"grant_type"`
 		RedirectUri  string `json:"redirect_uri"`
 		Code         string `json:"code"`
 	}
@@ -78,9 +78,9 @@ type (
 	}
 
 	RequestExchangeLongLivedTokenQuery struct {
-		GrantType    any    `json:"grant_type"`
+		GrantType    string `json:"grant_type"`
 		ClientSecret string `json:"client_secret"`
-		AccessToken  any    `json:"access_token"`
+		AccessToken  string `json:"access_token"`
 	}
 
 	RequestExchangeLongLivedToken struct {
@@ -89,7 +89,7 @@ type (
 
 	ResponseExchangeLongLivedTokenSuccess struct {
 		AccessToken string `json:"access_token"`
-		TokenType   any    `json:"token_type"`
+		TokenType   string `json:"token_type"`
 		ExpiresIn   int    `json:"expires_in"`
 	}
 
@@ -98,7 +98,7 @@ type (
 	}
 
 	RequestRefreshLongLivedTokenQuery struct {
-		GrantType   any    `json:"grant_type"`
+		GrantType   string `json:"grant_type"`
 		AccessToken string `json:"access_token"`
 	}
 
@@ -108,7 +108,7 @@ type (
 
 	ResponseRefreshLongLivedTokenSuccess struct {
 		AccessToken string `json:"access_token"`
-		TokenType   any    `json:"token_type"`
+		TokenType   string `json:"token_type"`
 		ExpiresIn   int    `json:"expires_in"`
 	}
 
@@ -138,7 +138,7 @@ func (s *oAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*Resp
 	if len(query.Scopes) == 0 {
 		return nil, ErrMissingScopes
 	}
-	if query.ResponseType == nil {
+	if query.ResponseType == "" {
 		query.ResponseType = "code"
 	}
 	values := url.Values{"client_id": {query.ClientID}, "redirect_uri": {query.RedirectUri}, "scope": {scopeValue(query.Scopes)}, "response_type": {stringValue(query.ResponseType)}}
@@ -172,7 +172,7 @@ func (s *oAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) 
 	if body.RedirectUri == "" {
 		body.RedirectUri = s.client.redirectURL
 	}
-	if body.GrantType == nil {
+	if body.GrantType == "" {
 		body.GrantType = "authorization_code"
 	}
 	values := url.Values{"client_id": {body.ClientID}, "client_secret": {body.ClientSecret}, "grant_type": {stringValue(body.GrantType)}, "redirect_uri": {body.RedirectUri}, "code": {body.Code}}
@@ -193,13 +193,13 @@ func (s *oAuth) ExchangeLongLivedToken(ctx context.Context, request *RequestExch
 		return nil, ErrNilEndpointRequest
 	}
 	query := request.Query
-	if query.AccessToken == nil {
+	if query.AccessToken == "" {
 		return nil, ErrMissingAccessToken
 	}
 	if query.ClientSecret == "" {
 		query.ClientSecret = s.client.clientSecret
 	}
-	if query.GrantType == nil {
+	if query.GrantType == "" {
 		query.GrantType = "ig_exchange_token"
 	}
 	values := url.Values{"grant_type": {stringValue(query.GrantType)}, "client_secret": {query.ClientSecret}, "access_token": {stringValue(query.AccessToken)}}
@@ -223,7 +223,7 @@ func (s *oAuth) RefreshLongLivedToken(ctx context.Context, request *RequestRefre
 	if query.AccessToken == "" {
 		return nil, ErrMissingAccessToken
 	}
-	if query.GrantType == nil {
+	if query.GrantType == "" {
 		query.GrantType = "ig_refresh_token"
 	}
 	values := url.Values{"grant_type": {stringValue(query.GrantType)}, "access_token": {query.AccessToken}}

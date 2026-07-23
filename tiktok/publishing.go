@@ -68,7 +68,7 @@ type (
 		VideoSize       *int   `json:"video_size"`
 		ChunkSize       *int   `json:"chunk_size"`
 		TotalChunkCount *int   `json:"total_chunk_count"`
-		VideoURL        any    `json:"video_url"`
+		VideoURL        string `json:"video_url"`
 	}
 
 	RequestDirectPostVideoInitBody struct {
@@ -101,19 +101,19 @@ type (
 	}
 
 	RequestUploadVideoChunkHeaders struct {
-		ContentType   any `json:"Content-Type"`
-		ContentLength int `json:"Content-Length"`
-		ContentRange  any `json:"Content-Range"`
+		ContentType   VideoContentType `json:"Content-Type"`
+		ContentLength int              `json:"Content-Length"`
+		ContentRange  string           `json:"Content-Range"`
 	}
 
 	RequestUploadVideoChunk struct {
 		UploadURL string                         `json:"-"`
 		Headers   RequestUploadVideoChunkHeaders `json:"headers"`
-		Body      any                            `json:"body"`
+		Body      []byte                         `json:"body"`
 	}
 
 	ResponseUploadVideoChunkSuccess struct {
-		HttpStatus any `json:"http_status"`
+		HttpStatus int `json:"http_status"`
 	}
 
 	ResponseUploadVideoChunk struct {
@@ -125,7 +125,7 @@ type (
 		VideoSize       *int   `json:"video_size"`
 		ChunkSize       *int   `json:"chunk_size"`
 		TotalChunkCount *int   `json:"total_chunk_count"`
-		VideoURL        any    `json:"video_url"`
+		VideoURL        string `json:"video_url"`
 	}
 
 	RequestUploadVideoDraftInitBody struct {
@@ -165,9 +165,9 @@ type (
 	}
 
 	RequestDirectPostPhotoInitBodySourceInfo struct {
-		Source          Source `json:"source"`
-		PhotoCoverIndex int    `json:"photo_cover_index"`
-		PhotoImages     []any  `json:"photo_images"`
+		Source          Source   `json:"source"`
+		PhotoCoverIndex int      `json:"photo_cover_index"`
+		PhotoImages     []string `json:"photo_images"`
 	}
 
 	RequestDirectPostPhotoInitBody struct {
@@ -272,13 +272,13 @@ func (s *publishing) UploadVideoChunk(ctx context.Context, request *RequestUploa
 	if e != nil {
 		return nil, e
 	}
-	if request.Headers.ContentType != nil {
+	if request.Headers.ContentType != "" {
 		r.Header.Set("Content-Type", fmt.Sprint(request.Headers.ContentType))
 	}
 	if request.Headers.ContentLength != 0 {
 		r.ContentLength = int64(request.Headers.ContentLength)
 	}
-	if request.Headers.ContentRange != nil {
+	if request.Headers.ContentRange != "" {
 		r.Header.Set("Content-Range", fmt.Sprint(request.Headers.ContentRange))
 	}
 	if e = s.client.Do(r, nil); e != nil {

@@ -19,7 +19,7 @@ func NewPosts(client *XClient) *posts {
 
 type (
 	RequestCreatePostHeaders struct {
-		ContentType any `json:"Content-Type"`
+		ContentType ContentType `json:"Content-Type"`
 	}
 
 	RequestCreatePostBodyMedia struct {
@@ -52,8 +52,9 @@ type (
 	}
 
 	ResponseCreatePostSuccessData struct {
-		ID   string `json:"id"`
-		Text string `json:"text"`
+		ID                  string   `json:"id"`
+		Text                string   `json:"text"`
+		EditHistoryTweetIDs []string `json:"edit_history_tweet_ids"`
 	}
 
 	ResponseCreatePostSuccess struct {
@@ -89,10 +90,10 @@ type (
 	}
 
 	RequestListUserPostsQuery struct {
-		MaxResults      int    `json:"max_results"`
-		PaginationToken string `json:"pagination_token"`
-		TweetFields     any    `json:"tweet.fields"`
-		Expansions      any    `json:"expansions"`
+		MaxResults      int          `json:"max_results"`
+		PaginationToken string       `json:"pagination_token"`
+		TweetFields     []TweetField `json:"tweet.fields"`
+		Expansions      []Expansion  `json:"expansions"`
 	}
 
 	RequestListUserPosts struct {
@@ -100,19 +101,15 @@ type (
 		Query RequestListUserPostsQuery `json:"query"`
 	}
 
-	ResponseListUserPostsSuccessDataItem struct {
-		ID   string `json:"id"`
-		Text string `json:"text"`
-	}
+	ResponseListUserPostsSuccessDataItem = Tweet
 
-	ResponseListUserPostsSuccessMeta struct {
-		ResultCount int     `json:"result_count"`
-		NextToken   *string `json:"next_token"`
-	}
+	ResponseListUserPostsSuccessMeta = Meta
 
 	ResponseListUserPostsSuccess struct {
-		Data []ResponseListUserPostsSuccessDataItem `json:"data"`
-		Meta ResponseListUserPostsSuccessMeta       `json:"meta"`
+		Data     []ResponseListUserPostsSuccessDataItem `json:"data"`
+		Meta     ResponseListUserPostsSuccessMeta       `json:"meta"`
+		Errors   []Problem                              `json:"errors"`
+		Includes *Includes                              `json:"includes"`
 	}
 
 	ResponseListUserPosts struct {
@@ -207,12 +204,9 @@ func (s *posts) ListUserPosts(ctx context.Context, request *RequestListUserPosts
 	if err != nil {
 		return nil, err
 	}
-	var raw struct {
-		Data []ResponseListUserPostsSuccessDataItem `json:"data"`
-		Meta ResponseListUserPostsSuccessMeta       `json:"meta"`
-	}
+	var raw ResponseListUserPostsSuccess
 	if err := s.client.Do(httpRequest, &raw); err != nil {
 		return nil, err
 	}
-	return &ResponseListUserPosts{Success: ResponseListUserPostsSuccess{Data: raw.Data, Meta: raw.Meta}}, nil
+	return &ResponseListUserPosts{Success: raw}, nil
 }

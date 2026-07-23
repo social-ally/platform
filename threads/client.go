@@ -9,6 +9,7 @@ import (
 	"io"
 	"net/http"
 	"net/url"
+	"reflect"
 	"strings"
 
 	"github.com/social-ally/platform"
@@ -183,6 +184,17 @@ func addOptionalQuery(values url.Values, key string, value any) {
 			values.Set(key, strings.Join(typed, ","))
 		}
 	default:
+		reflected := reflect.ValueOf(value)
+		if reflected.Kind() == reflect.Slice || reflected.Kind() == reflect.Array {
+			parts := make([]string, reflected.Len())
+			for index := range parts {
+				parts[index] = fmt.Sprint(reflected.Index(index).Interface())
+			}
+			if len(parts) != 0 {
+				values.Set(key, strings.Join(parts, ","))
+			}
+			return
+		}
 		values.Set(key, fmt.Sprint(typed))
 	}
 }

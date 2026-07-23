@@ -26,9 +26,9 @@ type (
 	RequestCreatePostContainerBody struct {
 		MediaType      MediaType `json:"media_type"`
 		Text           *string   `json:"text"`
-		ImageURL       any       `json:"image_url"`
-		VideoURL       any       `json:"video_url"`
-		Children       []any     `json:"children"`
+		ImageURL       string    `json:"image_url"`
+		VideoURL       string    `json:"video_url"`
+		Children       []string  `json:"children"`
 		IsCarouselItem *bool     `json:"is_carousel_item"`
 		ReplyToID      *string   `json:"reply_to_id"`
 		QuotePostID    *string   `json:"quote_post_id"`

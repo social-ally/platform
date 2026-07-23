@@ -20,7 +20,7 @@ func NewUsers(client *ThreadsClient) *users {
 
 type (
 	RequestGetMeQuery struct {
-		Fields any `json:"fields"`
+		Fields []UserField `json:"fields"`
 	}
 
 	RequestGetMe struct {

@@ -24,9 +24,9 @@ type (
 	}
 
 	RequestListMediaQuery struct {
-		Fields any     `json:"fields"`
-		Limit  int     `json:"limit"`
-		After  *string `json:"after"`
+		Fields []MediaField `json:"fields"`
+		Limit  int          `json:"limit"`
+		After  *string      `json:"after"`
 	}
 
 	RequestListMedia struct {
@@ -35,12 +35,21 @@ type (
 	}
 
 	ResponseListMediaSuccessDataItem struct {
-		ID        string    `json:"id"`
-		Caption   string    `json:"caption"`
-		MediaType MediaType `json:"media_type"`
-		MediaURL  string    `json:"media_url"`
-		Permalink string    `json:"permalink"`
-		Timestamp any       `json:"timestamp"`
+		ID               string    `json:"id"`
+		Caption          string    `json:"caption"`
+		MediaType        MediaType `json:"media_type"`
+		MediaURL         string    `json:"media_url"`
+		Permalink        string    `json:"permalink"`
+		Timestamp        string    `json:"timestamp"`
+		CommentsCount    int       `json:"comments_count"`
+		LikeCount        int       `json:"like_count"`
+		MediaProductType string    `json:"media_product_type"`
+		Owner            any       `json:"owner"`
+		Shortcode        string    `json:"shortcode"`
+		ThumbnailURL     string    `json:"thumbnail_url"`
+		Username         string    `json:"username"`
+		Children         any       `json:"children"`
+		IsCommentEnabled bool      `json:"is_comment_enabled"`
 	}
 
 	ResponseListMediaSuccessPagingCursors struct {
