@@ -9,13 +9,13 @@ import (
 )
 
 // Media provides access to media endpoints.
-type Media struct {
-	client *InstagramClient
+type media struct {
+	client *instagramClient
 }
 
 // NewMedia creates a Media endpoint group using client.
-func NewMedia(client *InstagramClient) *Media {
-	return &Media{client: client}
+func NewMedia(client *instagramClient) *media {
+	return &media{client: client}
 }
 
 type (
@@ -35,12 +35,12 @@ type (
 	}
 
 	ResponseListMediaSuccessDataItem struct {
-		ID        string `json:"id"`
-		Caption   string `json:"caption"`
-		MediaType any    `json:"media_type"`
-		MediaURL  string `json:"media_url"`
-		Permalink string `json:"permalink"`
-		Timestamp any    `json:"timestamp"`
+		ID        string    `json:"id"`
+		Caption   string    `json:"caption"`
+		MediaType MediaType `json:"media_type"`
+		MediaURL  string    `json:"media_url"`
+		Permalink string    `json:"permalink"`
+		Timestamp any       `json:"timestamp"`
 	}
 
 	ResponseListMediaSuccessPagingCursors struct {
@@ -64,7 +64,7 @@ type (
 )
 
 // ListMedia calls GET https://graph.instagram.com/v24.0/{ig_user_id}/media.
-func (s *Media) ListMedia(ctx context.Context, request *RequestListMedia) (*ResponseListMedia, error) {
+func (s *media) ListMedia(ctx context.Context, request *RequestListMedia) (*ResponseListMedia, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

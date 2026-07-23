@@ -9,13 +9,13 @@ import (
 )
 
 // Channels provides access to channels endpoints.
-type Channels struct {
-	client *YouTubeClient
+type channels struct {
+	client *youTubeClient
 }
 
 // NewChannels creates a Channels endpoint group using client.
-func NewChannels(client *YouTubeClient) *Channels {
-	return &Channels{client: client}
+func NewChannels(client *youTubeClient) *channels {
+	return &channels{client: client}
 }
 
 type (
@@ -61,7 +61,7 @@ type (
 )
 
 // GetMyChannels calls GET https://www.googleapis.com/youtube/v3/channels.
-func (s *Channels) GetMyChannels(ctx context.Context, request *RequestGetMyChannels) (*ResponseGetMyChannels, error) {
+func (s *channels) GetMyChannels(ctx context.Context, request *RequestGetMyChannels) (*ResponseGetMyChannels, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

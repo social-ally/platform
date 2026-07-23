@@ -11,7 +11,6 @@ const (
 )
 
 var (
-	ErrNotImplemented       = errors.New("X SDK endpoint is not implemented")
 	ErrMissingClientID      = errors.New("X client ID is required")
 	ErrMissingClientSecret  = errors.New("X client secret is required")
 	ErrMissingRedirectURL   = errors.New("X redirect URL is required")

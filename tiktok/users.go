@@ -9,13 +9,13 @@ import (
 )
 
 // Users provides access to users endpoints.
-type Users struct {
-	client *TikTokClient
+type users struct {
+	client *tikTokClient
 }
 
 // NewUsers creates a Users endpoint group using client.
-func NewUsers(client *TikTokClient) *Users {
-	return &Users{client: client}
+func NewUsers(client *tikTokClient) *users {
+	return &users{client: client}
 }
 
 type (
@@ -62,7 +62,7 @@ type (
 )
 
 // QueryUserInfo calls GET https://open.tiktokapis.com/v2/user/info/.
-func (s *Users) QueryUserInfo(ctx context.Context, request *RequestQueryUserInfo) (*ResponseQueryUserInfo, error) {
+func (s *users) QueryUserInfo(ctx context.Context, request *RequestQueryUserInfo) (*ResponseQueryUserInfo, error) {
 	q := url.Values{}
 	if request != nil {
 		addOptionalQuery(q, "fields", request.Query.Fields)

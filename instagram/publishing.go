@@ -9,13 +9,13 @@ import (
 )
 
 // Publishing provides access to publishing endpoints.
-type Publishing struct {
-	client *InstagramClient
+type publishing struct {
+	client *instagramClient
 }
 
 // NewPublishing creates a Publishing endpoint group using client.
-func NewPublishing(client *InstagramClient) *Publishing {
-	return &Publishing{client: client}
+func NewPublishing(client *instagramClient) *publishing {
+	return &publishing{client: client}
 }
 
 type (
@@ -24,17 +24,17 @@ type (
 	}
 
 	RequestCreateMediaContainerBody struct {
-		ImageURL       any     `json:"image_url"`
-		VideoURL       any     `json:"video_url"`
-		MediaType      any     `json:"media_type"`
-		Caption        *string `json:"caption"`
-		ShareToFeed    *bool   `json:"share_to_feed"`
-		CoverURL       any     `json:"cover_url"`
-		ThumbOffset    *int    `json:"thumb_offset"`
-		Children       []any   `json:"children"`
-		IsCarouselItem *bool   `json:"is_carousel_item"`
-		IsAiGenerated  *bool   `json:"is_ai_generated"`
-		AccessToken    string  `json:"access_token"`
+		ImageURL       any                 `json:"image_url"`
+		VideoURL       any                 `json:"video_url"`
+		MediaType      PublishingMediaType `json:"media_type"`
+		Caption        *string             `json:"caption"`
+		ShareToFeed    *bool               `json:"share_to_feed"`
+		CoverURL       any                 `json:"cover_url"`
+		ThumbOffset    *int                `json:"thumb_offset"`
+		Children       []any               `json:"children"`
+		IsCarouselItem *bool               `json:"is_carousel_item"`
+		IsAiGenerated  *bool               `json:"is_ai_generated"`
+		AccessToken    string              `json:"access_token"`
 	}
 
 	RequestCreateMediaContainer struct {
@@ -65,9 +65,9 @@ type (
 	}
 
 	ResponseGetContainerStatusSuccess struct {
-		ID         string `json:"id"`
-		StatusCode any    `json:"status_code"`
-		Status     string `json:"status"`
+		ID         string          `json:"id"`
+		StatusCode ContainerStatus `json:"status_code"`
+		Status     string          `json:"status"`
 	}
 
 	ResponseGetContainerStatus struct {
@@ -130,7 +130,7 @@ type (
 )
 
 // CreateMediaContainer calls POST https://graph.instagram.com/v24.0/{ig_user_id}/media.
-func (s *Publishing) CreateMediaContainer(ctx context.Context, request *RequestCreateMediaContainer) (*ResponseCreateMediaContainer, error) {
+func (s *publishing) CreateMediaContainer(ctx context.Context, request *RequestCreateMediaContainer) (*ResponseCreateMediaContainer, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -153,7 +153,7 @@ func (s *Publishing) CreateMediaContainer(ctx context.Context, request *RequestC
 }
 
 // GetContainerStatus calls GET https://graph.instagram.com/v24.0/{creation_id}.
-func (s *Publishing) GetContainerStatus(ctx context.Context, request *RequestGetContainerStatus) (*ResponseGetContainerStatus, error) {
+func (s *publishing) GetContainerStatus(ctx context.Context, request *RequestGetContainerStatus) (*ResponseGetContainerStatus, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -176,7 +176,7 @@ func (s *Publishing) GetContainerStatus(ctx context.Context, request *RequestGet
 }
 
 // PublishMedia calls POST https://graph.instagram.com/v24.0/{ig_user_id}/media_publish.
-func (s *Publishing) PublishMedia(ctx context.Context, request *RequestPublishMedia) (*ResponsePublishMedia, error) {
+func (s *publishing) PublishMedia(ctx context.Context, request *RequestPublishMedia) (*ResponsePublishMedia, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -199,7 +199,7 @@ func (s *Publishing) PublishMedia(ctx context.Context, request *RequestPublishMe
 }
 
 // GetPublishingLimit calls GET https://graph.instagram.com/v24.0/{ig_user_id}/content_publishing_limit.
-func (s *Publishing) GetPublishingLimit(ctx context.Context, request *RequestGetPublishingLimit) (*ResponseGetPublishingLimit, error) {
+func (s *publishing) GetPublishingLimit(ctx context.Context, request *RequestGetPublishingLimit) (*ResponseGetPublishingLimit, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

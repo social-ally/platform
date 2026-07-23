@@ -13,7 +13,6 @@ const (
 )
 
 var (
-	ErrNotImplemented      = errors.New("YouTube SDK endpoint is not implemented")
 	ErrMissingClientID     = errors.New("YouTube client ID is required")
 	ErrMissingClientSecret = errors.New("YouTube client secret is required")
 	ErrMissingRedirectURL  = errors.New("YouTube redirect URL is required")

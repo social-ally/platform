@@ -10,13 +10,13 @@ import (
 )
 
 // Media provides access to media endpoints.
-type Media struct {
-	client *ThreadsClient
+type media struct {
+	client *threadsClient
 }
 
 // NewMedia creates a Media endpoint group using client.
-func NewMedia(client *ThreadsClient) *Media {
-	return &Media{client: client}
+func NewMedia(client *threadsClient) *media {
+	return &media{client: client}
 }
 
 type (
@@ -56,7 +56,7 @@ type (
 )
 
 // ListUserThreads calls GET https://graph.threads.net/v1.0/{threads_user_id}/threads.
-func (s *Media) ListUserThreads(ctx context.Context, request *RequestListUserThreads) (*ResponseListUserThreads, error) {
+func (s *media) ListUserThreads(ctx context.Context, request *RequestListUserThreads) (*ResponseListUserThreads, error) {
 	if request == nil || request.Path.ThreadsUserID == "" {
 		return nil, ErrMissingID
 	}

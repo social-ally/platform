@@ -9,13 +9,13 @@ import (
 )
 
 // Users provides access to users endpoints.
-type Users struct {
-	client *InstagramClient
+type users struct {
+	client *instagramClient
 }
 
 // NewUsers creates a Users endpoint group using client.
-func NewUsers(client *InstagramClient) *Users {
-	return &Users{client: client}
+func NewUsers(client *instagramClient) *users {
+	return &users{client: client}
 }
 
 type (
@@ -29,15 +29,15 @@ type (
 	}
 
 	ResponseGetMeSuccess struct {
-		ID                string `json:"id"`
-		UserID            string `json:"user_id"`
-		Username          string `json:"username"`
-		Name              string `json:"name"`
-		AccountType       any    `json:"account_type"`
-		ProfilePictureURL string `json:"profile_picture_url"`
-		FollowersCount    int    `json:"followers_count"`
-		FollowsCount      int    `json:"follows_count"`
-		MediaCount        int    `json:"media_count"`
+		ID                string      `json:"id"`
+		UserID            string      `json:"user_id"`
+		Username          string      `json:"username"`
+		Name              string      `json:"name"`
+		AccountType       AccountType `json:"account_type"`
+		ProfilePictureURL string      `json:"profile_picture_url"`
+		FollowersCount    int         `json:"followers_count"`
+		FollowsCount      int         `json:"follows_count"`
+		MediaCount        int         `json:"media_count"`
 	}
 
 	ResponseGetMe struct {
@@ -46,7 +46,7 @@ type (
 )
 
 // GetMe calls GET https://graph.instagram.com/v24.0/me.
-func (s *Users) GetMe(ctx context.Context, request *RequestGetMe) (*ResponseGetMe, error) {
+func (s *users) GetMe(ctx context.Context, request *RequestGetMe) (*ResponseGetMe, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

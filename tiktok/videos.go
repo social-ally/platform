@@ -9,13 +9,13 @@ import (
 )
 
 // Videos provides access to videos endpoints.
-type Videos struct {
-	client *TikTokClient
+type videos struct {
+	client *tikTokClient
 }
 
 // NewVideos creates a Videos endpoint group using client.
-func NewVideos(client *TikTokClient) *Videos {
-	return &Videos{client: client}
+func NewVideos(client *tikTokClient) *videos {
+	return &videos{client: client}
 }
 
 type (
@@ -109,7 +109,7 @@ type (
 )
 
 // ListUserVideos calls POST https://open.tiktokapis.com/v2/video/list/.
-func (s *Videos) ListUserVideos(ctx context.Context, request *RequestListUserVideos) (*ResponseListUserVideos, error) {
+func (s *videos) ListUserVideos(ctx context.Context, request *RequestListUserVideos) (*ResponseListUserVideos, error) {
 	if request == nil {
 		return nil, ErrNilOAuthRequest
 	}
@@ -131,7 +131,7 @@ func (s *Videos) ListUserVideos(ctx context.Context, request *RequestListUserVid
 }
 
 // QueryVideos calls POST https://open.tiktokapis.com/v2/video/query/.
-func (s *Videos) QueryVideos(ctx context.Context, request *RequestQueryVideos) (*ResponseQueryVideos, error) {
+func (s *videos) QueryVideos(ctx context.Context, request *RequestQueryVideos) (*ResponseQueryVideos, error) {
 	if request == nil {
 		return nil, ErrNilOAuthRequest
 	}

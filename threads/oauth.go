@@ -10,13 +10,13 @@ import (
 const oauthAuthorizeURL = "https://threads.net/oauth/authorize"
 
 // OAuth provides access to oauth endpoints.
-type OAuth struct {
-	client *ThreadsClient
+type oAuth struct {
+	client *threadsClient
 }
 
 // NewOAuth creates a OAuth endpoint group using client.
-func NewOAuth(client *ThreadsClient) *OAuth {
-	return &OAuth{client: client}
+func NewOAuth(client *threadsClient) *oAuth {
+	return &oAuth{client: client}
 }
 
 type (
@@ -109,7 +109,7 @@ type (
 )
 
 // Authorize calls GET https://threads.net/oauth/authorize.
-func (s *OAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*ResponseAuthorize, error) {
+func (s *oAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*ResponseAuthorize, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}
@@ -149,7 +149,7 @@ func (s *OAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*Resp
 }
 
 // ExchangeCode calls POST https://graph.threads.net/oauth/access_token.
-func (s *OAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) (*ResponseExchangeCode, error) {
+func (s *oAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) (*ResponseExchangeCode, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}
@@ -185,7 +185,7 @@ func (s *OAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) 
 }
 
 // ExchangeLongLivedToken calls GET https://graph.threads.net/access_token.
-func (s *OAuth) ExchangeLongLivedToken(ctx context.Context, request *RequestExchangeLongLivedToken) (*ResponseExchangeLongLivedToken, error) {
+func (s *oAuth) ExchangeLongLivedToken(ctx context.Context, request *RequestExchangeLongLivedToken) (*ResponseExchangeLongLivedToken, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}
@@ -215,7 +215,7 @@ func (s *OAuth) ExchangeLongLivedToken(ctx context.Context, request *RequestExch
 }
 
 // RefreshLongLivedToken calls GET https://graph.threads.net/refresh_access_token.
-func (s *OAuth) RefreshLongLivedToken(ctx context.Context, request *RequestRefreshLongLivedToken) (*ResponseRefreshLongLivedToken, error) {
+func (s *oAuth) RefreshLongLivedToken(ctx context.Context, request *RequestRefreshLongLivedToken) (*ResponseRefreshLongLivedToken, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}

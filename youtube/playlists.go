@@ -9,13 +9,13 @@ import (
 )
 
 // Playlists provides access to playlists endpoints.
-type Playlists struct {
-	client *YouTubeClient
+type playlists struct {
+	client *youTubeClient
 }
 
 // NewPlaylists creates a Playlists endpoint group using client.
-func NewPlaylists(client *YouTubeClient) *Playlists {
-	return &Playlists{client: client}
+func NewPlaylists(client *youTubeClient) *playlists {
+	return &playlists{client: client}
 }
 
 type (
@@ -29,7 +29,7 @@ type (
 	}
 
 	RequestCreatePlaylistBodyStatus struct {
-		PrivacyStatus any `json:"privacyStatus"`
+		PrivacyStatus PrivacyStatus `json:"privacyStatus"`
 	}
 
 	RequestCreatePlaylistBody struct {
@@ -96,7 +96,7 @@ type (
 )
 
 // CreatePlaylist calls POST https://www.googleapis.com/youtube/v3/playlists.
-func (s *Playlists) CreatePlaylist(ctx context.Context, request *RequestCreatePlaylist) (*ResponseCreatePlaylist, error) {
+func (s *playlists) CreatePlaylist(ctx context.Context, request *RequestCreatePlaylist) (*ResponseCreatePlaylist, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -113,7 +113,7 @@ func (s *Playlists) CreatePlaylist(ctx context.Context, request *RequestCreatePl
 }
 
 // AddVideoToPlaylist calls POST https://www.googleapis.com/youtube/v3/playlistItems.
-func (s *Playlists) AddVideoToPlaylist(ctx context.Context, request *RequestAddVideoToPlaylist) (*ResponseAddVideoToPlaylist, error) {
+func (s *playlists) AddVideoToPlaylist(ctx context.Context, request *RequestAddVideoToPlaylist) (*ResponseAddVideoToPlaylist, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

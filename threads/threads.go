@@ -9,7 +9,6 @@ const (
 )
 
 var (
-	ErrNotImplemented      = errors.New("Threads SDK endpoint is not implemented")
 	ErrMissingClientID     = errors.New("Threads client ID is required")
 	ErrMissingClientSecret = errors.New("Threads client secret is required")
 	ErrMissingRedirectURL  = errors.New("Threads redirect URL is required")

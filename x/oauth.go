@@ -13,14 +13,14 @@ const (
 	oauthRevokeURL    = BaseURL + "/oauth2/revoke"
 )
 
-// OAuth provides access to oauth endpoints.
-type OAuth struct {
-	client *XClient
+// oAuth provides access to OAuth endpoints.
+type oAuth struct {
+	client *xClient
 }
 
-// NewOAuth creates a OAuth endpoint group using client.
-func NewOAuth(client *XClient) *OAuth {
-	return &OAuth{client: client}
+// NewOAuth creates an OAuth endpoint group using client.
+func NewOAuth(client *xClient) *oAuth {
+	return &oAuth{client: client}
 }
 
 type (
@@ -148,7 +148,7 @@ type (
 )
 
 // Authorize calls GET https://x.com/i/oauth2/authorize.
-func (s *OAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*ResponseAuthorize, error) {
+func (s *oAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*ResponseAuthorize, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}
@@ -196,7 +196,7 @@ func (s *OAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*Resp
 }
 
 // ExchangeCode calls POST https://api.x.com/2/oauth2/token.
-func (s *OAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) (*ResponseExchangeCode, error) {
+func (s *oAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) (*ResponseExchangeCode, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}
@@ -244,7 +244,7 @@ func (s *OAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) 
 }
 
 // RefreshToken calls POST https://api.x.com/2/oauth2/token.
-func (s *OAuth) RefreshToken(ctx context.Context, request *RequestRefreshToken) (*ResponseRefreshToken, error) {
+func (s *oAuth) RefreshToken(ctx context.Context, request *RequestRefreshToken) (*ResponseRefreshToken, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}
@@ -285,7 +285,7 @@ func (s *OAuth) RefreshToken(ctx context.Context, request *RequestRefreshToken) 
 }
 
 // RevokeToken calls POST https://api.x.com/2/oauth2/revoke.
-func (s *OAuth) RevokeToken(ctx context.Context, request *RequestRevokeToken) (*ResponseRevokeToken, error) {
+func (s *oAuth) RevokeToken(ctx context.Context, request *RequestRevokeToken) (*ResponseRevokeToken, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}

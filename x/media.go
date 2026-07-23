@@ -8,14 +8,14 @@ import (
 	"net/http"
 )
 
-// Media provides access to media endpoints.
-type Media struct {
-	client *XClient
+// media provides access to media endpoints.
+type media struct {
+	client *xClient
 }
 
-// NewMedia creates a Media endpoint group using client.
-func NewMedia(client *XClient) *Media {
-	return &Media{client: client}
+// NewMedia creates a media endpoint group using client.
+func NewMedia(client *xClient) *media {
+	return &media{client: client}
 }
 
 type (
@@ -50,7 +50,7 @@ type (
 )
 
 // UploadMedia calls POST https://api.x.com/2/media/upload.
-func (s *Media) UploadMedia(ctx context.Context, request *RequestUploadMedia) (*ResponseUploadMedia, error) {
+func (s *media) UploadMedia(ctx context.Context, request *RequestUploadMedia) (*ResponseUploadMedia, error) {
 	if s.client == nil {
 		return nil, ErrMissingAccessToken
 	}

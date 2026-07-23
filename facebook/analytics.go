@@ -9,13 +9,13 @@ import (
 )
 
 // Analytics provides access to analytics endpoints.
-type Analytics struct {
-	client *FacebookClient
+type analytics struct {
+	client *facebookClient
 }
 
 // NewAnalytics creates a Analytics endpoint group using client.
-func NewAnalytics(client *FacebookClient) *Analytics {
-	return &Analytics{client: client}
+func NewAnalytics(client *facebookClient) *analytics {
+	return &analytics{client: client}
 }
 
 type (
@@ -24,10 +24,10 @@ type (
 	}
 
 	RequestGetPageInsightsQuery struct {
-		Metric any `json:"metric"`
-		Period any `json:"period"`
-		Since  any `json:"since"`
-		Until  any `json:"until"`
+		Metric any           `json:"metric"`
+		Period InsightPeriod `json:"period"`
+		Since  any           `json:"since"`
+		Until  any           `json:"until"`
 	}
 
 	RequestGetPageInsights struct {
@@ -59,7 +59,7 @@ type (
 )
 
 // GetPageInsights calls GET https://graph.facebook.com/v24.0/{page_id}/insights.
-func (s *Analytics) GetPageInsights(ctx context.Context, request *RequestGetPageInsights) (*ResponseGetPageInsights, error) {
+func (s *analytics) GetPageInsights(ctx context.Context, request *RequestGetPageInsights) (*ResponseGetPageInsights, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

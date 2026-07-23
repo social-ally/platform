@@ -9,13 +9,13 @@ import (
 )
 
 // Publishing provides access to publishing endpoints.
-type Publishing struct {
-	client *TikTokClient
+type publishing struct {
+	client *tikTokClient
 }
 
 // NewPublishing creates a Publishing endpoint group using client.
-func NewPublishing(client *TikTokClient) *Publishing {
-	return &Publishing{client: client}
+func NewPublishing(client *tikTokClient) *publishing {
+	return &publishing{client: client}
 }
 
 type (
@@ -27,14 +27,14 @@ type (
 	}
 
 	ResponseQueryCreatorInfoSuccessData struct {
-		CreatorAvatarURL        string `json:"creator_avatar_url"`
-		CreatorUsername         string `json:"creator_username"`
-		CreatorNickname         string `json:"creator_nickname"`
-		PrivacyLevelOptions     []any  `json:"privacy_level_options"`
-		CommentDisabled         bool   `json:"comment_disabled"`
-		DuetDisabled            bool   `json:"duet_disabled"`
-		StitchDisabled          bool   `json:"stitch_disabled"`
-		MaxVideoPostDurationSec int    `json:"max_video_post_duration_sec"`
+		CreatorAvatarURL        string         `json:"creator_avatar_url"`
+		CreatorUsername         string         `json:"creator_username"`
+		CreatorNickname         string         `json:"creator_nickname"`
+		PrivacyLevelOptions     []PrivacyLevel `json:"privacy_level_options"`
+		CommentDisabled         bool           `json:"comment_disabled"`
+		DuetDisabled            bool           `json:"duet_disabled"`
+		StitchDisabled          bool           `json:"stitch_disabled"`
+		MaxVideoPostDurationSec int            `json:"max_video_post_duration_sec"`
 	}
 
 	ResponseQueryCreatorInfoSuccessError struct {
@@ -53,22 +53,22 @@ type (
 	}
 
 	RequestDirectPostVideoInitBodyPostInfo struct {
-		Title                 string `json:"title"`
-		PrivacyLevel          any    `json:"privacy_level"`
-		DisableDuet           bool   `json:"disable_duet"`
-		DisableComment        bool   `json:"disable_comment"`
-		DisableStitch         bool   `json:"disable_stitch"`
-		VideoCoverTimestampMs *int   `json:"video_cover_timestamp_ms"`
-		BrandContentToggle    *bool  `json:"brand_content_toggle"`
-		BrandOrganicToggle    *bool  `json:"brand_organic_toggle"`
+		Title                 string       `json:"title"`
+		PrivacyLevel          PrivacyLevel `json:"privacy_level"`
+		DisableDuet           bool         `json:"disable_duet"`
+		DisableComment        bool         `json:"disable_comment"`
+		DisableStitch         bool         `json:"disable_stitch"`
+		VideoCoverTimestampMs *int         `json:"video_cover_timestamp_ms"`
+		BrandContentToggle    *bool        `json:"brand_content_toggle"`
+		BrandOrganicToggle    *bool        `json:"brand_organic_toggle"`
 	}
 
 	RequestDirectPostVideoInitBodySourceInfo struct {
-		Source          any  `json:"source"`
-		VideoSize       *int `json:"video_size"`
-		ChunkSize       *int `json:"chunk_size"`
-		TotalChunkCount *int `json:"total_chunk_count"`
-		VideoURL        any  `json:"video_url"`
+		Source          Source `json:"source"`
+		VideoSize       *int   `json:"video_size"`
+		ChunkSize       *int   `json:"chunk_size"`
+		TotalChunkCount *int   `json:"total_chunk_count"`
+		VideoURL        any    `json:"video_url"`
 	}
 
 	RequestDirectPostVideoInitBody struct {
@@ -121,11 +121,11 @@ type (
 	}
 
 	RequestUploadVideoDraftInitBodySourceInfo struct {
-		Source          any  `json:"source"`
-		VideoSize       *int `json:"video_size"`
-		ChunkSize       *int `json:"chunk_size"`
-		TotalChunkCount *int `json:"total_chunk_count"`
-		VideoURL        any  `json:"video_url"`
+		Source          Source `json:"source"`
+		VideoSize       *int   `json:"video_size"`
+		ChunkSize       *int   `json:"chunk_size"`
+		TotalChunkCount *int   `json:"total_chunk_count"`
+		VideoURL        any    `json:"video_url"`
 	}
 
 	RequestUploadVideoDraftInitBody struct {
@@ -157,17 +157,17 @@ type (
 	}
 
 	RequestDirectPostPhotoInitBodyPostInfo struct {
-		Title          string `json:"title"`
-		Description    string `json:"description"`
-		DisableComment bool   `json:"disable_comment"`
-		PrivacyLevel   any    `json:"privacy_level"`
-		AutoAddMusic   bool   `json:"auto_add_music"`
+		Title          string       `json:"title"`
+		Description    string       `json:"description"`
+		DisableComment bool         `json:"disable_comment"`
+		PrivacyLevel   PrivacyLevel `json:"privacy_level"`
+		AutoAddMusic   bool         `json:"auto_add_music"`
 	}
 
 	RequestDirectPostPhotoInitBodySourceInfo struct {
-		Source          any   `json:"source"`
-		PhotoCoverIndex int   `json:"photo_cover_index"`
-		PhotoImages     []any `json:"photo_images"`
+		Source          Source `json:"source"`
+		PhotoCoverIndex int    `json:"photo_cover_index"`
+		PhotoImages     []any  `json:"photo_images"`
 	}
 
 	RequestDirectPostPhotoInitBody struct {
@@ -209,10 +209,10 @@ type (
 	}
 
 	ResponseGetPublishStatusSuccessData struct {
-		Status                   any      `json:"status"`
-		FailReason               *string  `json:"fail_reason"`
-		PublicalyAvailablePostID []string `json:"publicaly_available_post_id"`
-		UploadedBytes            *int     `json:"uploaded_bytes"`
+		Status                   PublishStatus `json:"status"`
+		FailReason               *string       `json:"fail_reason"`
+		PublicalyAvailablePostID []string      `json:"publicaly_available_post_id"`
+		UploadedBytes            *int          `json:"uploaded_bytes"`
 	}
 
 	ResponseGetPublishStatusSuccessError struct {
@@ -232,7 +232,7 @@ type (
 )
 
 // QueryCreatorInfo calls POST https://open.tiktokapis.com/v2/post/publish/creator_info/query/.
-func (s *Publishing) QueryCreatorInfo(ctx context.Context, request *RequestQueryCreatorInfo) (*ResponseQueryCreatorInfo, error) {
+func (s *publishing) QueryCreatorInfo(ctx context.Context, request *RequestQueryCreatorInfo) (*ResponseQueryCreatorInfo, error) {
 	if request == nil {
 		return nil, ErrNilOAuthRequest
 	}
@@ -248,7 +248,7 @@ func (s *Publishing) QueryCreatorInfo(ctx context.Context, request *RequestQuery
 }
 
 // DirectPostVideoInit calls POST https://open.tiktokapis.com/v2/post/publish/video/init/.
-func (s *Publishing) DirectPostVideoInit(ctx context.Context, request *RequestDirectPostVideoInit) (*ResponseDirectPostVideoInit, error) {
+func (s *publishing) DirectPostVideoInit(ctx context.Context, request *RequestDirectPostVideoInit) (*ResponseDirectPostVideoInit, error) {
 	if request == nil {
 		return nil, ErrNilOAuthRequest
 	}
@@ -264,7 +264,7 @@ func (s *Publishing) DirectPostVideoInit(ctx context.Context, request *RequestDi
 }
 
 // UploadVideoChunk calls PUT {upload_url_returned_by_init}.
-func (s *Publishing) UploadVideoChunk(ctx context.Context, request *RequestUploadVideoChunk) (*ResponseUploadVideoChunk, error) {
+func (s *publishing) UploadVideoChunk(ctx context.Context, request *RequestUploadVideoChunk) (*ResponseUploadVideoChunk, error) {
 	if request == nil || request.UploadURL == "" {
 		return nil, ErrMissingToken
 	}
@@ -288,7 +288,7 @@ func (s *Publishing) UploadVideoChunk(ctx context.Context, request *RequestUploa
 }
 
 // UploadVideoDraftInit calls POST https://open.tiktokapis.com/v2/post/publish/inbox/video/init/.
-func (s *Publishing) UploadVideoDraftInit(ctx context.Context, request *RequestUploadVideoDraftInit) (*ResponseUploadVideoDraftInit, error) {
+func (s *publishing) UploadVideoDraftInit(ctx context.Context, request *RequestUploadVideoDraftInit) (*ResponseUploadVideoDraftInit, error) {
 	if request == nil {
 		return nil, ErrNilOAuthRequest
 	}
@@ -304,7 +304,7 @@ func (s *Publishing) UploadVideoDraftInit(ctx context.Context, request *RequestU
 }
 
 // DirectPostPhotoInit calls POST https://open.tiktokapis.com/v2/post/publish/content/init/.
-func (s *Publishing) DirectPostPhotoInit(ctx context.Context, request *RequestDirectPostPhotoInit) (*ResponseDirectPostPhotoInit, error) {
+func (s *publishing) DirectPostPhotoInit(ctx context.Context, request *RequestDirectPostPhotoInit) (*ResponseDirectPostPhotoInit, error) {
 	if request == nil {
 		return nil, ErrNilOAuthRequest
 	}
@@ -320,7 +320,7 @@ func (s *Publishing) DirectPostPhotoInit(ctx context.Context, request *RequestDi
 }
 
 // GetPublishStatus calls POST https://open.tiktokapis.com/v2/post/publish/status/fetch/.
-func (s *Publishing) GetPublishStatus(ctx context.Context, request *RequestGetPublishStatus) (*ResponseGetPublishStatus, error) {
+func (s *publishing) GetPublishStatus(ctx context.Context, request *RequestGetPublishStatus) (*ResponseGetPublishStatus, error) {
 	if request == nil {
 		return nil, ErrNilOAuthRequest
 	}

@@ -12,7 +12,6 @@ const (
 )
 
 var (
-	ErrNotImplemented      = errors.New("Instagram SDK endpoint is not implemented")
 	ErrMissingClientID     = errors.New("Instagram client ID is required")
 	ErrMissingClientSecret = errors.New("Instagram client secret is required")
 	ErrMissingRedirectURL  = errors.New("Instagram redirect URL is required")

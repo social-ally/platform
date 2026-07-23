@@ -20,11 +20,11 @@ var (
 	ErrUnexpectedStatus = errors.New("TikTok API returned an unexpected status")
 )
 
-// ClientOption configures a TikTok client.
-type ClientOption func(*TikTokClient) error
+// option configures a TikTok client.
+type option func(*tikTokClient) error
 
-// TikTokClient is the shared authenticated HTTP client for TikTok endpoint groups.
-type TikTokClient struct {
+// tikTokClient is the shared authenticated HTTP client for TikTok endpoint groups.
+type tikTokClient struct {
 	httpClient   *http.Client
 	clientID     string
 	clientSecret string
@@ -53,16 +53,16 @@ func (e *APIError) Unwrap() error {
 }
 
 // WithScopes configures the OAuth scopes requested by the client.
-func WithScopes(scopes ...Scope) ClientOption {
-	return func(client *TikTokClient) error {
+func WithScopes(scopes ...Scope) option {
+	return func(client *tikTokClient) error {
 		client.scopes = append([]Scope(nil), scopes...)
 		return nil
 	}
 }
 
 // WithHTTPClient configures the HTTP client used to execute requests.
-func WithHTTPClient(httpClient *http.Client) ClientOption {
-	return func(client *TikTokClient) error {
+func WithHTTPClient(httpClient *http.Client) option {
+	return func(client *tikTokClient) error {
 		if httpClient == nil {
 			return ErrNilHTTPClient
 		}
@@ -72,20 +72,34 @@ func WithHTTPClient(httpClient *http.Client) ClientOption {
 }
 
 // WithAccessToken configures the bearer token for authenticated API requests.
-func WithAccessToken(accessToken string) ClientOption {
-	return func(client *TikTokClient) error { client.accessToken = accessToken; return nil }
+func WithAccessToken(accessToken string) option {
+	return func(client *tikTokClient) error { client.accessToken = accessToken; return nil }
+}
+
+// WithAccessToken returns a copy of c configured for authenticated API requests.
+func (c *tikTokClient) WithAccessToken(accessToken string) (*tikTokClient, error) {
+	if c == nil {
+		return nil, ErrNilClient
+	}
+	if accessToken == "" {
+		return nil, ErrMissingAccessToken
+	}
+	copy := *c
+	copy.scopes = append([]Scope(nil), c.scopes...)
+	copy.accessToken = accessToken
+	return &copy, nil
 }
 
 // WithPKCE requires PKCE parameters for authorization-code exchanges.
-func WithPKCE() ClientOption {
-	return func(client *TikTokClient) error {
+func WithPKCE() option {
+	return func(client *tikTokClient) error {
 		client.pkce = true
 		return nil
 	}
 }
 
 // Do implements [platform.Client].
-func (c *TikTokClient) Do(request *http.Request, response any) error {
+func (c *tikTokClient) Do(request *http.Request, response any) error {
 	if request == nil {
 		return ErrNilRequest
 	}
@@ -115,7 +129,7 @@ func (c *TikTokClient) Do(request *http.Request, response any) error {
 }
 
 // NewRequest implements [platform.Client].
-func (c *TikTokClient) NewRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
+func (c *tikTokClient) NewRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
 	var reader io.Reader
 	var contentType string
 	switch value := body.(type) {
@@ -149,7 +163,7 @@ func (c *TikTokClient) NewRequest(ctx context.Context, method string, rawURL str
 	return request, nil
 }
 
-func (c *TikTokClient) authenticatedRequest(ctx context.Context, method, rawURL string, body any) (*http.Request, error) {
+func (c *tikTokClient) authenticatedRequest(ctx context.Context, method, rawURL string, body any) (*http.Request, error) {
 	if c == nil {
 		return nil, ErrNilClient
 	}
@@ -178,7 +192,7 @@ func addOptionalQuery(values url.Values, key string, value any) {
 }
 
 // NewTikTokClient creates a TikTok OAuth client.
-func NewTikTokClient(clientID, clientSecret, redirectURL string, options ...ClientOption) (*TikTokClient, error) {
+func NewTikTokClient(clientID, clientSecret, redirectURL string, options ...option) (*tikTokClient, error) {
 	if clientID == "" {
 		return nil, ErrMissingClientID
 	}
@@ -188,7 +202,7 @@ func NewTikTokClient(clientID, clientSecret, redirectURL string, options ...Clie
 	if redirectURL == "" {
 		return nil, ErrMissingRedirectURL
 	}
-	client := &TikTokClient{
+	client := &tikTokClient{
 		httpClient:   http.DefaultClient,
 		clientID:     clientID,
 		clientSecret: clientSecret,
@@ -208,4 +222,4 @@ func NewTikTokClient(clientID, clientSecret, redirectURL string, options ...Clie
 	return client, nil
 }
 
-var _ platform.Client = (*TikTokClient)(nil)
+var _ platform.Client = (*tikTokClient)(nil)

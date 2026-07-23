@@ -7,14 +7,14 @@ import (
 	"net/url"
 )
 
-// Posts provides access to posts endpoints.
-type Posts struct {
-	client *XClient
+// posts provides access to posts endpoints.
+type posts struct {
+	client *xClient
 }
 
-// NewPosts creates a Posts endpoint group using client.
-func NewPosts(client *XClient) *Posts {
-	return &Posts{client: client}
+// NewPosts creates a posts endpoint group using client.
+func NewPosts(client *xClient) *posts {
+	return &posts{client: client}
 }
 
 type (
@@ -43,7 +43,7 @@ type (
 		Reply         RequestCreatePostBodyReply `json:"reply"`
 		QuoteTweetID  string                     `json:"quote_tweet_id"`
 		Poll          RequestCreatePostBodyPoll  `json:"poll"`
-		ReplySettings any                        `json:"reply_settings"`
+		ReplySettings ReplySetting               `json:"reply_settings"`
 	}
 
 	RequestCreatePost struct {
@@ -121,7 +121,7 @@ type (
 )
 
 // CreatePost calls POST https://api.x.com/2/tweets.
-func (s *Posts) CreatePost(ctx context.Context, request *RequestCreatePost) (*ResponseCreatePost, error) {
+func (s *posts) CreatePost(ctx context.Context, request *RequestCreatePost) (*ResponseCreatePost, error) {
 	if s.client == nil {
 		return nil, ErrMissingAccessToken
 	}
@@ -144,7 +144,7 @@ func (s *Posts) CreatePost(ctx context.Context, request *RequestCreatePost) (*Re
 	if len(request.Body.Poll.Options) != 0 {
 		body["poll"] = request.Body.Poll
 	}
-	if request.Body.ReplySettings != nil {
+	if request.Body.ReplySettings != "" {
 		body["reply_settings"] = request.Body.ReplySettings
 	}
 	if len(body) == 0 {
@@ -164,7 +164,7 @@ func (s *Posts) CreatePost(ctx context.Context, request *RequestCreatePost) (*Re
 }
 
 // DeletePost calls DELETE https://api.x.com/2/tweets/{id}.
-func (s *Posts) DeletePost(ctx context.Context, request *RequestDeletePost) (*ResponseDeletePost, error) {
+func (s *posts) DeletePost(ctx context.Context, request *RequestDeletePost) (*ResponseDeletePost, error) {
 	if s.client == nil {
 		return nil, ErrMissingAccessToken
 	}
@@ -185,7 +185,7 @@ func (s *Posts) DeletePost(ctx context.Context, request *RequestDeletePost) (*Re
 }
 
 // ListUserPosts calls GET https://api.x.com/2/users/{id}/tweets.
-func (s *Posts) ListUserPosts(ctx context.Context, request *RequestListUserPosts) (*ResponseListUserPosts, error) {
+func (s *posts) ListUserPosts(ctx context.Context, request *RequestListUserPosts) (*ResponseListUserPosts, error) {
 	if s.client == nil {
 		return nil, ErrMissingAccessToken
 	}

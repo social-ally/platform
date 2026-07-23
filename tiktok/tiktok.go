@@ -11,7 +11,6 @@ const (
 )
 
 var (
-	ErrNotImplemented       = errors.New("TikTok SDK endpoint is not implemented")
 	ErrMissingClientID      = errors.New("TikTok client ID is required")
 	ErrMissingClientSecret  = errors.New("TikTok client secret is required")
 	ErrMissingRedirectURL   = errors.New("TikTok redirect URL is required")

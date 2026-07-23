@@ -21,11 +21,11 @@ var (
 )
 
 type (
-	// Option configures an X client.
-	Option func(*XClient) error
+	// option configures an X client.
+	option func(*xClient) error
 
-	// XClient is the shared authenticated HTTP client for X endpoint groups.
-	XClient struct {
+	// xClient is the shared authenticated HTTP client for X endpoint groups.
+	xClient struct {
 		httpClient   *http.Client
 		clientID     string
 		clientSecret string
@@ -57,16 +57,16 @@ func (e *APIError) Unwrap() error {
 }
 
 // WithScopes configures the OAuth scopes requested by the client.
-func WithScopes(scopes ...Scope) Option {
-	return func(client *XClient) error {
+func WithScopes(scopes ...Scope) option {
+	return func(client *xClient) error {
 		client.scopes = append([]Scope(nil), scopes...)
 		return nil
 	}
 }
 
 // WithHTTPClient configures the HTTP client used to execute requests.
-func WithHTTPClient(httpClient *http.Client) Option {
-	return func(client *XClient) error {
+func WithHTTPClient(httpClient *http.Client) option {
+	return func(client *xClient) error {
 		if httpClient == nil {
 			return ErrNilHTTPClient
 		}
@@ -76,8 +76,8 @@ func WithHTTPClient(httpClient *http.Client) Option {
 }
 
 // WithAccessToken configures the bearer token used by authenticated API calls.
-func WithAccessToken(accessToken string) Option {
-	return func(client *XClient) error {
+func WithAccessToken(accessToken string) option {
+	return func(client *xClient) error {
 		if accessToken == "" {
 			return ErrMissingAccessToken
 		}
@@ -86,16 +86,30 @@ func WithAccessToken(accessToken string) Option {
 	}
 }
 
+// WithAccessToken returns a copy of x configured for authenticated API calls.
+func (x *xClient) WithAccessToken(accessToken string) (*xClient, error) {
+	if x == nil {
+		return nil, ErrNilClient
+	}
+	if accessToken == "" {
+		return nil, ErrMissingAccessToken
+	}
+	copy := *x
+	copy.scopes = append([]Scope(nil), x.scopes...)
+	copy.accessToken = accessToken
+	return &copy, nil
+}
+
 // WithConfidentialClient configures OAuth token requests to use HTTP Basic authentication.
-func WithConfidentialClient() Option {
-	return func(client *XClient) error {
+func WithConfidentialClient() option {
+	return func(client *xClient) error {
 		client.confidential = true
 		return nil
 	}
 }
 
 // Do implements [platform.Client].
-func (x *XClient) Do(request *http.Request, response any) error {
+func (x *xClient) Do(request *http.Request, response any) error {
 	if request == nil {
 		return ErrNilRequest
 	}
@@ -126,7 +140,7 @@ func (x *XClient) Do(request *http.Request, response any) error {
 }
 
 // NewRequest implements [platform.Client].
-func (x *XClient) NewRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
+func (x *xClient) NewRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
 	var reader io.Reader
 	var contentType string
 
@@ -162,7 +176,7 @@ func (x *XClient) NewRequest(ctx context.Context, method string, rawURL string, 
 	return request, nil
 }
 
-func (x *XClient) authenticatedRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
+func (x *xClient) authenticatedRequest(ctx context.Context, method string, rawURL string, body any) (*http.Request, error) {
 	if x == nil {
 		return nil, ErrNilClient
 	}
@@ -189,7 +203,7 @@ func addOptionalQuery(values url.Values, key string, value any) {
 }
 
 // NewXClient creates an X OAuth client.
-func NewXClient(clientID, clientSecret, redirectURL string, options ...Option) (*XClient, error) {
+func NewXClient(clientID, clientSecret, redirectURL string, options ...option) (*xClient, error) {
 	if clientID == "" {
 		return nil, ErrMissingClientID
 	}
@@ -197,7 +211,7 @@ func NewXClient(clientID, clientSecret, redirectURL string, options ...Option) (
 		return nil, ErrMissingRedirectURL
 	}
 
-	client := &XClient{
+	client := &xClient{
 		httpClient:   http.DefaultClient,
 		clientID:     clientID,
 		clientSecret: clientSecret,
@@ -220,4 +234,4 @@ func NewXClient(clientID, clientSecret, redirectURL string, options ...Option) (
 	return client, nil
 }
 
-var _ platform.Client = (*XClient)(nil)
+var _ platform.Client = (*xClient)(nil)

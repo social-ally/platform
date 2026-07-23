@@ -9,13 +9,13 @@ import (
 )
 
 // Publishing provides access to publishing endpoints.
-type Publishing struct {
-	client *ThreadsClient
+type publishing struct {
+	client *threadsClient
 }
 
 // NewPublishing creates a Publishing endpoint group using client.
-func NewPublishing(client *ThreadsClient) *Publishing {
-	return &Publishing{client: client}
+func NewPublishing(client *threadsClient) *publishing {
+	return &publishing{client: client}
 }
 
 type (
@@ -24,17 +24,17 @@ type (
 	}
 
 	RequestCreatePostContainerBody struct {
-		MediaType      any     `json:"media_type"`
-		Text           *string `json:"text"`
-		ImageURL       any     `json:"image_url"`
-		VideoURL       any     `json:"video_url"`
-		Children       []any   `json:"children"`
-		IsCarouselItem *bool   `json:"is_carousel_item"`
-		ReplyToID      *string `json:"reply_to_id"`
-		QuotePostID    *string `json:"quote_post_id"`
-		LinkAttachment *string `json:"link_attachment"`
-		LocationID     *string `json:"location_id"`
-		AccessToken    string  `json:"access_token"`
+		MediaType      MediaType `json:"media_type"`
+		Text           *string   `json:"text"`
+		ImageURL       any       `json:"image_url"`
+		VideoURL       any       `json:"video_url"`
+		Children       []any     `json:"children"`
+		IsCarouselItem *bool     `json:"is_carousel_item"`
+		ReplyToID      *string   `json:"reply_to_id"`
+		QuotePostID    *string   `json:"quote_post_id"`
+		LinkAttachment *string   `json:"link_attachment"`
+		LocationID     *string   `json:"location_id"`
+		AccessToken    string    `json:"access_token"`
 	}
 
 	RequestCreatePostContainer struct {
@@ -43,7 +43,7 @@ type (
 	}
 
 	ResponseCreatePostContainerSuccess struct {
-		ID any `json:"id"`
+		ID string `json:"id"`
 	}
 
 	ResponseCreatePostContainer struct {
@@ -64,9 +64,9 @@ type (
 	}
 
 	ResponseGetContainerStatusSuccess struct {
-		ID           string  `json:"id"`
-		Status       any     `json:"status"`
-		ErrorMessage *string `json:"error_message"`
+		ID           string          `json:"id"`
+		Status       ContainerStatus `json:"status"`
+		ErrorMessage *string         `json:"error_message"`
 	}
 
 	ResponseGetContainerStatus struct {
@@ -88,7 +88,7 @@ type (
 	}
 
 	ResponsePublishPostSuccess struct {
-		ID any `json:"id"`
+		ID string `json:"id"`
 	}
 
 	ResponsePublishPost struct {
@@ -113,7 +113,7 @@ type (
 )
 
 // CreatePostContainer calls POST https://graph.threads.net/v1.0/{threads_user_id}/threads.
-func (s *Publishing) CreatePostContainer(ctx context.Context, request *RequestCreatePostContainer) (*ResponseCreatePostContainer, error) {
+func (s *publishing) CreatePostContainer(ctx context.Context, request *RequestCreatePostContainer) (*ResponseCreatePostContainer, error) {
 	if request == nil || request.Path.ThreadsUserID == "" {
 		return nil, ErrMissingID
 	}
@@ -129,7 +129,7 @@ func (s *Publishing) CreatePostContainer(ctx context.Context, request *RequestCr
 }
 
 // GetContainerStatus calls GET https://graph.threads.net/v1.0/{creation_id}.
-func (s *Publishing) GetContainerStatus(ctx context.Context, request *RequestGetContainerStatus) (*ResponseGetContainerStatus, error) {
+func (s *publishing) GetContainerStatus(ctx context.Context, request *RequestGetContainerStatus) (*ResponseGetContainerStatus, error) {
 	if request == nil || request.Path.CreationID == "" {
 		return nil, ErrMissingID
 	}
@@ -151,7 +151,7 @@ func (s *Publishing) GetContainerStatus(ctx context.Context, request *RequestGet
 }
 
 // PublishPost calls POST https://graph.threads.net/v1.0/{threads_user_id}/threads_publish.
-func (s *Publishing) PublishPost(ctx context.Context, request *RequestPublishPost) (*ResponsePublishPost, error) {
+func (s *publishing) PublishPost(ctx context.Context, request *RequestPublishPost) (*ResponsePublishPost, error) {
 	if request == nil || request.Path.ThreadsUserID == "" {
 		return nil, ErrMissingID
 	}
@@ -167,7 +167,7 @@ func (s *Publishing) PublishPost(ctx context.Context, request *RequestPublishPos
 }
 
 // DeletePost calls DELETE https://graph.threads.net/v1.0/{threads_media_id}.
-func (s *Publishing) DeletePost(ctx context.Context, request *RequestDeletePost) (*ResponseDeletePost, error) {
+func (s *publishing) DeletePost(ctx context.Context, request *RequestDeletePost) (*ResponseDeletePost, error) {
 	if request == nil || request.Path.ThreadsMediaID == "" {
 		return nil, ErrMissingID
 	}

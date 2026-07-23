@@ -9,13 +9,13 @@ import (
 )
 
 // Publishing provides access to publishing endpoints.
-type Publishing struct {
-	client *FacebookClient
+type publishing struct {
+	client *facebookClient
 }
 
 // NewPublishing creates a Publishing endpoint group using client.
-func NewPublishing(client *FacebookClient) *Publishing {
-	return &Publishing{client: client}
+func NewPublishing(client *facebookClient) *publishing {
+	return &publishing{client: client}
 }
 
 type (
@@ -164,7 +164,7 @@ type (
 )
 
 // CreateFeedPost calls POST https://graph.facebook.com/v24.0/{page_id}/feed.
-func (s *Publishing) CreateFeedPost(ctx context.Context, request *RequestCreateFeedPost) (*ResponseCreateFeedPost, error) {
+func (s *publishing) CreateFeedPost(ctx context.Context, request *RequestCreateFeedPost) (*ResponseCreateFeedPost, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -187,7 +187,7 @@ func (s *Publishing) CreateFeedPost(ctx context.Context, request *RequestCreateF
 }
 
 // UploadPhoto calls POST https://graph.facebook.com/v24.0/{page_id}/photos.
-func (s *Publishing) UploadPhoto(ctx context.Context, request *RequestUploadPhoto) (*ResponseUploadPhoto, error) {
+func (s *publishing) UploadPhoto(ctx context.Context, request *RequestUploadPhoto) (*ResponseUploadPhoto, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -210,7 +210,7 @@ func (s *Publishing) UploadPhoto(ctx context.Context, request *RequestUploadPhot
 }
 
 // StartVideoUpload calls POST https://graph-video.facebook.com/v24.0/{page_id}/videos.
-func (s *Publishing) StartVideoUpload(ctx context.Context, request *RequestStartVideoUpload) (*ResponseStartVideoUpload, error) {
+func (s *publishing) StartVideoUpload(ctx context.Context, request *RequestStartVideoUpload) (*ResponseStartVideoUpload, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -233,7 +233,7 @@ func (s *Publishing) StartVideoUpload(ctx context.Context, request *RequestStart
 }
 
 // TransferVideoChunk calls POST https://graph-video.facebook.com/v24.0/{page_id}/videos.
-func (s *Publishing) TransferVideoChunk(ctx context.Context, request *RequestTransferVideoChunk) (*ResponseTransferVideoChunk, error) {
+func (s *publishing) TransferVideoChunk(ctx context.Context, request *RequestTransferVideoChunk) (*ResponseTransferVideoChunk, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -256,7 +256,7 @@ func (s *Publishing) TransferVideoChunk(ctx context.Context, request *RequestTra
 }
 
 // FinishVideoUpload calls POST https://graph-video.facebook.com/v24.0/{page_id}/videos.
-func (s *Publishing) FinishVideoUpload(ctx context.Context, request *RequestFinishVideoUpload) (*ResponseFinishVideoUpload, error) {
+func (s *publishing) FinishVideoUpload(ctx context.Context, request *RequestFinishVideoUpload) (*ResponseFinishVideoUpload, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -279,7 +279,7 @@ func (s *Publishing) FinishVideoUpload(ctx context.Context, request *RequestFini
 }
 
 // DeletePost calls DELETE https://graph.facebook.com/v24.0/{post_id}.
-func (s *Publishing) DeletePost(ctx context.Context, request *RequestDeletePost) (*ResponseDeletePost, error) {
+func (s *publishing) DeletePost(ctx context.Context, request *RequestDeletePost) (*ResponseDeletePost, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

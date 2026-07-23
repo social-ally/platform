@@ -14,19 +14,19 @@ import (
 )
 
 // Videos provides access to videos endpoints.
-type Videos struct {
-	client *YouTubeClient
+type videos struct {
+	client *youTubeClient
 }
 
 // NewVideos creates a Videos endpoint group using client.
-func NewVideos(client *YouTubeClient) *Videos {
-	return &Videos{client: client}
+func NewVideos(client *youTubeClient) *videos {
+	return &videos{client: client}
 }
 
 type (
 	RequestUploadVideoQuery struct {
-		Part       any `json:"part"`
-		UploadType any `json:"uploadType"`
+		Part       any        `json:"part"`
+		UploadType UploadType `json:"uploadType"`
 	}
 
 	RequestUploadVideoHeaders struct {
@@ -44,10 +44,10 @@ type (
 	}
 
 	RequestUploadVideoBodyStatus struct {
-		PrivacyStatus           any   `json:"privacyStatus"`
-		PublishAt               any   `json:"publishAt"`
-		SelfDeclaredMadeForKids *bool `json:"selfDeclaredMadeForKids"`
-		ContainsSyntheticMedia  *bool `json:"containsSyntheticMedia"`
+		PrivacyStatus           PrivacyStatus `json:"privacyStatus"`
+		PublishAt               any           `json:"publishAt"`
+		SelfDeclaredMadeForKids *bool         `json:"selfDeclaredMadeForKids"`
+		ContainsSyntheticMedia  *bool         `json:"containsSyntheticMedia"`
 	}
 
 	RequestUploadVideoBody struct {
@@ -130,8 +130,8 @@ type (
 	}
 
 	RequestUpdateVideoBodyStatus struct {
-		PrivacyStatus any `json:"privacyStatus"`
-		PublishAt     any `json:"publishAt"`
+		PrivacyStatus PrivacyStatus `json:"privacyStatus"`
+		PublishAt     any           `json:"publishAt"`
 	}
 
 	RequestUpdateVideoBody struct {
@@ -179,7 +179,7 @@ type (
 )
 
 // UploadVideo calls POST https://www.googleapis.com/upload/youtube/v3/videos.
-func (s *Videos) UploadVideo(ctx context.Context, request *RequestUploadVideo) (*ResponseUploadVideo, error) {
+func (s *videos) UploadVideo(ctx context.Context, request *RequestUploadVideo) (*ResponseUploadVideo, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -193,7 +193,7 @@ func (s *Videos) UploadVideo(ctx context.Context, request *RequestUploadVideo) (
 		if err != nil {
 			return nil, err
 		}
-	} else if request.Query.UploadType != nil {
+	} else if request.Query.UploadType != "" {
 		query.Set("uploadType", stringValue(request.Query.UploadType))
 	}
 	httpRequest, err := s.client.authenticatedRequest(ctx, http.MethodPost, UploadBaseURL+"/videos?"+query.Encode(), body)
@@ -212,7 +212,7 @@ func (s *Videos) UploadVideo(ctx context.Context, request *RequestUploadVideo) (
 }
 
 // ListVideos calls GET https://www.googleapis.com/youtube/v3/videos.
-func (s *Videos) ListVideos(ctx context.Context, request *RequestListVideos) (*ResponseListVideos, error) {
+func (s *videos) ListVideos(ctx context.Context, request *RequestListVideos) (*ResponseListVideos, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -238,7 +238,7 @@ func (s *Videos) ListVideos(ctx context.Context, request *RequestListVideos) (*R
 }
 
 // UpdateVideo calls PUT https://www.googleapis.com/youtube/v3/videos.
-func (s *Videos) UpdateVideo(ctx context.Context, request *RequestUpdateVideo) (*ResponseUpdateVideo, error) {
+func (s *videos) UpdateVideo(ctx context.Context, request *RequestUpdateVideo) (*ResponseUpdateVideo, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -255,7 +255,7 @@ func (s *Videos) UpdateVideo(ctx context.Context, request *RequestUpdateVideo) (
 }
 
 // DeleteVideo calls DELETE https://www.googleapis.com/youtube/v3/videos.
-func (s *Videos) DeleteVideo(ctx context.Context, request *RequestDeleteVideo) (*ResponseDeleteVideo, error) {
+func (s *videos) DeleteVideo(ctx context.Context, request *RequestDeleteVideo) (*ResponseDeleteVideo, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

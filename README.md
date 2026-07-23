@@ -64,6 +64,15 @@ func main() {
 
 For an X confidential client, supply the client secret and `x.WithConfidentialClient()`. Token requests will use HTTP Basic authentication.
 
+When an access token is obtained after client creation, derive an authenticated client without recreating the OAuth configuration:
+
+```go
+authenticatedClient, err := client.WithAccessToken(tokens.Success.AccessToken)
+if err != nil {
+    return err
+}
+```
+
 ## OAuth authorization-code flow
 
 OAuth groups create the provider authorization URL and exchange the returned code. Each package’s request and response types are named `Request<Method>` and `Response<Method>`.

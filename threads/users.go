@@ -9,13 +9,13 @@ import (
 )
 
 // Users provides access to users endpoints.
-type Users struct {
-	client *ThreadsClient
+type users struct {
+	client *threadsClient
 }
 
 // NewUsers creates a Users endpoint group using client.
-func NewUsers(client *ThreadsClient) *Users {
-	return &Users{client: client}
+func NewUsers(client *threadsClient) *users {
+	return &users{client: client}
 }
 
 type (
@@ -41,7 +41,7 @@ type (
 )
 
 // GetMe calls GET https://graph.threads.net/v1.0/me.
-func (s *Users) GetMe(ctx context.Context, request *RequestGetMe) (*ResponseGetMe, error) {
+func (s *users) GetMe(ctx context.Context, request *RequestGetMe) (*ResponseGetMe, error) {
 	q := url.Values{}
 	if request != nil {
 		addOptionalQuery(q, "fields", request.Query.Fields)

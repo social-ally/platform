@@ -9,13 +9,13 @@ import (
 )
 
 // OAuth provides access to oauth endpoints.
-type OAuth struct {
-	client *InstagramClient
+type oAuth struct {
+	client *instagramClient
 }
 
 // NewOAuth creates a OAuth endpoint group using client.
-func NewOAuth(client *InstagramClient) *OAuth {
-	return &OAuth{client: client}
+func NewOAuth(client *instagramClient) *oAuth {
+	return &oAuth{client: client}
 }
 
 type (
@@ -118,7 +118,7 @@ type (
 )
 
 // Authorize calls GET https://www.instagram.com/oauth/authorize.
-func (s *OAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*ResponseAuthorize, error) {
+func (s *oAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*ResponseAuthorize, error) {
 	if s.client == nil {
 		return nil, ErrNilHTTPClient
 	}
@@ -155,7 +155,7 @@ func (s *OAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*Resp
 }
 
 // ExchangeCode calls POST https://api.instagram.com/oauth/access_token.
-func (s *OAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) (*ResponseExchangeCode, error) {
+func (s *oAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) (*ResponseExchangeCode, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -188,7 +188,7 @@ func (s *OAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) 
 }
 
 // ExchangeLongLivedToken calls GET https://graph.instagram.com/access_token.
-func (s *OAuth) ExchangeLongLivedToken(ctx context.Context, request *RequestExchangeLongLivedToken) (*ResponseExchangeLongLivedToken, error) {
+func (s *oAuth) ExchangeLongLivedToken(ctx context.Context, request *RequestExchangeLongLivedToken) (*ResponseExchangeLongLivedToken, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -215,7 +215,7 @@ func (s *OAuth) ExchangeLongLivedToken(ctx context.Context, request *RequestExch
 }
 
 // RefreshLongLivedToken calls GET https://graph.instagram.com/refresh_access_token.
-func (s *OAuth) RefreshLongLivedToken(ctx context.Context, request *RequestRefreshLongLivedToken) (*ResponseRefreshLongLivedToken, error) {
+func (s *oAuth) RefreshLongLivedToken(ctx context.Context, request *RequestRefreshLongLivedToken) (*ResponseRefreshLongLivedToken, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

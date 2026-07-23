@@ -9,24 +9,24 @@ import (
 )
 
 // Analytics provides access to analytics endpoints.
-type Analytics struct {
-	client *YouTubeClient
+type analytics struct {
+	client *youTubeClient
 }
 
 // NewAnalytics creates a Analytics endpoint group using client.
-func NewAnalytics(client *YouTubeClient) *Analytics {
-	return &Analytics{client: client}
+func NewAnalytics(client *youTubeClient) *analytics {
+	return &analytics{client: client}
 }
 
 type (
 	RequestQueryChannelAnalyticsQuery struct {
-		Ids        any     `json:"ids"`
-		StartDate  any     `json:"startDate"`
-		EndDate    any     `json:"endDate"`
-		Metrics    any     `json:"metrics"`
-		Dimensions any     `json:"dimensions"`
-		Filters    *string `json:"filters"`
-		Sort       *string `json:"sort"`
+		Ids        any                `json:"ids"`
+		StartDate  any                `json:"startDate"`
+		EndDate    any                `json:"endDate"`
+		Metrics    any                `json:"metrics"`
+		Dimensions AnalyticsDimension `json:"dimensions"`
+		Filters    *string            `json:"filters"`
+		Sort       *string            `json:"sort"`
 	}
 
 	RequestQueryChannelAnalytics struct {
@@ -34,9 +34,9 @@ type (
 	}
 
 	ResponseQueryChannelAnalyticsSuccessColumnHeadersItem struct {
-		Name       string `json:"name"`
-		ColumnType any    `json:"columnType"`
-		DataType   any    `json:"dataType"`
+		Name       string              `json:"name"`
+		ColumnType AnalyticsColumnType `json:"columnType"`
+		DataType   AnalyticsDataType   `json:"dataType"`
 	}
 
 	ResponseQueryChannelAnalyticsSuccess struct {
@@ -50,7 +50,7 @@ type (
 )
 
 // QueryChannelAnalytics calls GET https://youtubeanalytics.googleapis.com/v2/reports.
-func (s *Analytics) QueryChannelAnalytics(ctx context.Context, request *RequestQueryChannelAnalytics) (*ResponseQueryChannelAnalytics, error) {
+func (s *analytics) QueryChannelAnalytics(ctx context.Context, request *RequestQueryChannelAnalytics) (*ResponseQueryChannelAnalytics, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

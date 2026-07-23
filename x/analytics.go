@@ -6,14 +6,14 @@ import (
 	"net/url"
 )
 
-// Analytics provides access to analytics endpoints.
-type Analytics struct {
-	client *XClient
+// analytics provides access to analytics endpoints.
+type analytics struct {
+	client *xClient
 }
 
-// NewAnalytics creates a Analytics endpoint group using client.
-func NewAnalytics(client *XClient) *Analytics {
-	return &Analytics{client: client}
+// NewAnalytics creates an analytics endpoint group using client.
+func NewAnalytics(client *xClient) *analytics {
+	return &analytics{client: client}
 }
 
 type (
@@ -54,7 +54,7 @@ type (
 )
 
 // GetPostMetrics calls GET https://api.x.com/2/tweets/{id}.
-func (s *Analytics) GetPostMetrics(ctx context.Context, request *RequestGetPostMetrics) (*ResponseGetPostMetrics, error) {
+func (s *analytics) GetPostMetrics(ctx context.Context, request *RequestGetPostMetrics) (*ResponseGetPostMetrics, error) {
 	if s.client == nil {
 		return nil, ErrMissingAccessToken
 	}

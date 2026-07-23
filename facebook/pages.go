@@ -9,13 +9,13 @@ import (
 )
 
 // Pages provides access to pages endpoints.
-type Pages struct {
-	client *FacebookClient
+type pages struct {
+	client *facebookClient
 }
 
 // NewPages creates a Pages endpoint group using client.
-func NewPages(client *FacebookClient) *Pages {
-	return &Pages{client: client}
+func NewPages(client *facebookClient) *pages {
+	return &pages{client: client}
 }
 
 type (
@@ -73,7 +73,7 @@ type (
 )
 
 // ListManagedPages calls GET https://graph.facebook.com/v24.0/me/accounts.
-func (s *Pages) ListManagedPages(ctx context.Context, request *RequestListManagedPages) (*ResponseListManagedPages, error) {
+func (s *pages) ListManagedPages(ctx context.Context, request *RequestListManagedPages) (*ResponseListManagedPages, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -90,7 +90,7 @@ func (s *Pages) ListManagedPages(ctx context.Context, request *RequestListManage
 }
 
 // GetPage calls GET https://graph.facebook.com/v24.0/{page_id}.
-func (s *Pages) GetPage(ctx context.Context, request *RequestGetPage) (*ResponseGetPage, error) {
+func (s *pages) GetPage(ctx context.Context, request *RequestGetPage) (*ResponseGetPage, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

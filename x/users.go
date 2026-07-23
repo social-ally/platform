@@ -6,14 +6,14 @@ import (
 	"net/url"
 )
 
-// Users provides access to users endpoints.
-type Users struct {
-	client *XClient
+// users provides access to users endpoints.
+type users struct {
+	client *xClient
 }
 
-// NewUsers creates a Users endpoint group using client.
-func NewUsers(client *XClient) *Users {
-	return &Users{client: client}
+// NewUsers creates a users endpoint group using client.
+func NewUsers(client *xClient) *users {
+	return &users{client: client}
 }
 
 type (
@@ -78,7 +78,7 @@ type (
 )
 
 // GetAuthenticatedUser calls GET https://api.x.com/2/users/me.
-func (s *Users) GetAuthenticatedUser(ctx context.Context, request *RequestGetAuthenticatedUser) (*ResponseGetAuthenticatedUser, error) {
+func (s *users) GetAuthenticatedUser(ctx context.Context, request *RequestGetAuthenticatedUser) (*ResponseGetAuthenticatedUser, error) {
 	if s.client == nil {
 		return nil, ErrMissingAccessToken
 	}
@@ -104,7 +104,7 @@ func (s *Users) GetAuthenticatedUser(ctx context.Context, request *RequestGetAut
 }
 
 // GetUserByID calls GET https://api.x.com/2/users/{id}.
-func (s *Users) GetUserByID(ctx context.Context, request *RequestGetUserByID) (*ResponseGetUserByID, error) {
+func (s *users) GetUserByID(ctx context.Context, request *RequestGetUserByID) (*ResponseGetUserByID, error) {
 	if s.client == nil {
 		return nil, ErrMissingAccessToken
 	}

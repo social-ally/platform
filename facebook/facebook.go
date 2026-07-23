@@ -12,7 +12,6 @@ const (
 )
 
 var (
-	ErrNotImplemented      = errors.New("Facebook SDK endpoint is not implemented")
 	ErrMissingClientID     = errors.New("Facebook client ID is required")
 	ErrMissingClientSecret = errors.New("Facebook client secret is required")
 	ErrMissingRedirectURL  = errors.New("Facebook redirect URL is required")

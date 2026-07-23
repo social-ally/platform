@@ -9,13 +9,13 @@ import (
 )
 
 // Users provides access to users endpoints.
-type Users struct {
-	client *FacebookClient
+type users struct {
+	client *facebookClient
 }
 
 // NewUsers creates a Users endpoint group using client.
-func NewUsers(client *FacebookClient) *Users {
-	return &Users{client: client}
+func NewUsers(client *facebookClient) *users {
+	return &users{client: client}
 }
 
 type (
@@ -43,7 +43,7 @@ type (
 )
 
 // GetMe calls GET https://graph.facebook.com/v24.0/me.
-func (s *Users) GetMe(ctx context.Context, request *RequestGetMe) (*ResponseGetMe, error) {
+func (s *users) GetMe(ctx context.Context, request *RequestGetMe) (*ResponseGetMe, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

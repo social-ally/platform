@@ -9,13 +9,13 @@ import (
 )
 
 // Analytics provides access to analytics endpoints.
-type Analytics struct {
-	client *InstagramClient
+type analytics struct {
+	client *instagramClient
 }
 
 // NewAnalytics creates a Analytics endpoint group using client.
-func NewAnalytics(client *InstagramClient) *Analytics {
-	return &Analytics{client: client}
+func NewAnalytics(client *instagramClient) *analytics {
+	return &analytics{client: client}
 }
 
 type (
@@ -24,8 +24,8 @@ type (
 	}
 
 	RequestGetMediaInsightsQuery struct {
-		Metric any `json:"metric"`
-		Period any `json:"period"`
+		Metric any           `json:"metric"`
+		Period InsightPeriod `json:"period"`
 	}
 
 	RequestGetMediaInsights struct {
@@ -57,7 +57,7 @@ type (
 )
 
 // GetMediaInsights calls GET https://graph.instagram.com/v24.0/{media_id}/insights.
-func (s *Analytics) GetMediaInsights(ctx context.Context, request *RequestGetMediaInsights) (*ResponseGetMediaInsights, error) {
+func (s *analytics) GetMediaInsights(ctx context.Context, request *RequestGetMediaInsights) (*ResponseGetMediaInsights, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

@@ -9,13 +9,13 @@ import (
 )
 
 // OAuth provides access to oauth endpoints.
-type OAuth struct {
-	client *YouTubeClient
+type oAuth struct {
+	client *youTubeClient
 }
 
 // NewOAuth creates a OAuth endpoint group using client.
-func NewOAuth(client *YouTubeClient) *OAuth {
-	return &OAuth{client: client}
+func NewOAuth(client *youTubeClient) *oAuth {
+	return &oAuth{client: client}
 }
 
 type (
@@ -130,7 +130,7 @@ type (
 )
 
 // Authorize calls GET https://accounts.google.com/o/oauth2/v2/auth.
-func (s *OAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*ResponseAuthorize, error) {
+func (s *oAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*ResponseAuthorize, error) {
 	if s.client == nil {
 		return nil, ErrNilHTTPClient
 	}
@@ -170,7 +170,7 @@ func (s *OAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*Resp
 }
 
 // ExchangeCode calls POST https://oauth2.googleapis.com/token.
-func (s *OAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) (*ResponseExchangeCode, error) {
+func (s *oAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) (*ResponseExchangeCode, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -206,7 +206,7 @@ func (s *OAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) 
 }
 
 // RefreshToken calls POST https://oauth2.googleapis.com/token.
-func (s *OAuth) RefreshToken(ctx context.Context, request *RequestRefreshToken) (*ResponseRefreshToken, error) {
+func (s *oAuth) RefreshToken(ctx context.Context, request *RequestRefreshToken) (*ResponseRefreshToken, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}
@@ -236,7 +236,7 @@ func (s *OAuth) RefreshToken(ctx context.Context, request *RequestRefreshToken) 
 }
 
 // RevokeToken calls POST https://oauth2.googleapis.com/revoke.
-func (s *OAuth) RevokeToken(ctx context.Context, request *RequestRevokeToken) (*ResponseRevokeToken, error) {
+func (s *oAuth) RevokeToken(ctx context.Context, request *RequestRevokeToken) (*ResponseRevokeToken, error) {
 	if request == nil {
 		return nil, ErrNilEndpointRequest
 	}

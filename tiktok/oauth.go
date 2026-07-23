@@ -10,24 +10,24 @@ import (
 const oauthAuthorizeURL = "https://www.tiktok.com/v2/auth/authorize/"
 
 // OAuth provides access to oauth endpoints.
-type OAuth struct {
-	client *TikTokClient
+type oAuth struct {
+	client *tikTokClient
 }
 
 // NewOAuth creates a OAuth endpoint group using client.
-func NewOAuth(client *TikTokClient) *OAuth {
-	return &OAuth{client: client}
+func NewOAuth(client *tikTokClient) *oAuth {
+	return &oAuth{client: client}
 }
 
 type (
 	RequestAuthorizeQuery struct {
-		ClientKey           string  `json:"client_key"`
-		Scopes              []Scope `json:"scope"`
-		ResponseType        string  `json:"response_type"`
-		RedirectUri         string  `json:"redirect_uri"`
-		State               string  `json:"state"`
-		CodeChallenge       *string `json:"code_challenge"`
-		CodeChallengeMethod *string `json:"code_challenge_method"`
+		ClientKey           string               `json:"client_key"`
+		Scopes              []Scope              `json:"scope"`
+		ResponseType        string               `json:"response_type"`
+		RedirectUri         string               `json:"redirect_uri"`
+		State               string               `json:"state"`
+		CodeChallenge       *string              `json:"code_challenge"`
+		CodeChallengeMethod *CodeChallengeMethod `json:"code_challenge_method"`
 	}
 
 	RequestAuthorize struct {
@@ -146,7 +146,7 @@ type (
 )
 
 // Authorize calls GET https://www.tiktok.com/v2/auth/authorize/.
-func (s *OAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*ResponseAuthorize, error) {
+func (s *oAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*ResponseAuthorize, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}
@@ -173,7 +173,7 @@ func (s *OAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*Resp
 		return nil, ErrMissingCodeChallenge
 	}
 	if query.CodeChallenge != nil && query.CodeChallengeMethod == nil {
-		method := "S256"
+		method := CodeChallengeMethodS256
 		query.CodeChallengeMethod = &method
 	}
 	authorizeURL, err := url.Parse(oauthAuthorizeURL)
@@ -192,14 +192,14 @@ func (s *OAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*Resp
 		values.Set("code_challenge", *query.CodeChallenge)
 	}
 	if query.CodeChallengeMethod != nil {
-		values.Set("code_challenge_method", *query.CodeChallengeMethod)
+		values.Set("code_challenge_method", string(*query.CodeChallengeMethod))
 	}
 	authorizeURL.RawQuery = values.Encode()
 	return &ResponseAuthorize{URL: authorizeURL.String()}, nil
 }
 
 // ExchangeCode calls POST https://open.tiktokapis.com/v2/oauth/token/.
-func (s *OAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) (*ResponseExchangeCode, error) {
+func (s *oAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) (*ResponseExchangeCode, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}
@@ -241,7 +241,7 @@ func (s *OAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) 
 }
 
 // RefreshToken calls POST https://open.tiktokapis.com/v2/oauth/token/.
-func (s *OAuth) RefreshToken(ctx context.Context, request *RequestRefreshToken) (*ResponseRefreshToken, error) {
+func (s *oAuth) RefreshToken(ctx context.Context, request *RequestRefreshToken) (*ResponseRefreshToken, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}
@@ -274,7 +274,7 @@ func (s *OAuth) RefreshToken(ctx context.Context, request *RequestRefreshToken) 
 }
 
 // RevokeToken calls POST https://open.tiktokapis.com/v2/oauth/revoke/.
-func (s *OAuth) RevokeToken(ctx context.Context, request *RequestRevokeToken) (*ResponseRevokeToken, error) {
+func (s *oAuth) RevokeToken(ctx context.Context, request *RequestRevokeToken) (*ResponseRevokeToken, error) {
 	if s.client == nil {
 		return nil, ErrNilOAuthClient
 	}

@@ -80,6 +80,31 @@ func TestXClientRequestAndResponse(t *testing.T) {
 	}
 }
 
+func TestWithAccessTokenReturnsAuthenticatedCopy(t *testing.T) {
+	client, err := NewXClient("client", "", "https://example.com/callback", WithScopes(ScopeUsersRead))
+	if err != nil {
+		t.Fatal(err)
+	}
+	authenticated, err := client.WithAccessToken("access-token")
+	if err != nil {
+		t.Fatal(err)
+	}
+	request, err := authenticated.NewRequest(context.Background(), http.MethodGet, "https://api.example.test", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got, want := request.Header.Get("Authorization"), "Bearer access-token"; got != want {
+		t.Errorf("Authorization = %q, want %q", got, want)
+	}
+	originalRequest, err := client.NewRequest(context.Background(), http.MethodGet, "https://api.example.test", nil)
+	if err != nil {
+		t.Fatal(err)
+	}
+	if got := originalRequest.Header.Get("Authorization"); got != "" {
+		t.Errorf("original Authorization = %q, want empty", got)
+	}
+}
+
 func TestOAuthAuthorizeUsesClientDefaults(t *testing.T) {
 	client, err := NewXClient("client", "secret", "https://example.com/callback", WithScopes(ScopeTweetRead, ScopeUsersRead))
 	if err != nil {
