@@ -155,7 +155,7 @@ func (s *oAuth) Authorize(ctx context.Context, request *RequestAuthorize) (*Resp
 		query = request.Query
 	}
 	if query.ClientKey == "" {
-		query.ClientKey = s.client.clientID
+		query.ClientKey = s.client.clientKey
 	}
 	if query.RedirectUri == "" {
 		query.RedirectUri = s.client.redirectURL
@@ -214,7 +214,7 @@ func (s *oAuth) ExchangeCode(ctx context.Context, request *RequestExchangeCode) 
 		return nil, ErrMissingCodeVerifier
 	}
 	if body.ClientKey == "" {
-		body.ClientKey = s.client.clientID
+		body.ClientKey = s.client.clientKey
 	}
 	if body.ClientSecret == "" {
 		body.ClientSecret = s.client.clientSecret
@@ -253,7 +253,7 @@ func (s *oAuth) RefreshToken(ctx context.Context, request *RequestRefreshToken) 
 		return nil, ErrMissingToken
 	}
 	if body.ClientKey == "" {
-		body.ClientKey = s.client.clientID
+		body.ClientKey = s.client.clientKey
 	}
 	if body.ClientSecret == "" {
 		body.ClientSecret = s.client.clientSecret
@@ -286,7 +286,7 @@ func (s *oAuth) RevokeToken(ctx context.Context, request *RequestRevokeToken) (*
 		return nil, ErrMissingToken
 	}
 	if body.ClientKey == "" {
-		body.ClientKey = s.client.clientID
+		body.ClientKey = s.client.clientKey
 	}
 	if body.ClientSecret == "" {
 		body.ClientSecret = s.client.clientSecret

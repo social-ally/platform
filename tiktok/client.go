@@ -26,7 +26,7 @@ type option func(*TikTokClient) error
 // TikTokClient is the shared authenticated HTTP client for TikTok endpoint groups.
 type TikTokClient struct {
 	httpClient   *http.Client
-	clientID     string
+	clientKey    string
 	clientSecret string
 	redirectURL  string
 	scopes       []Scope
@@ -192,9 +192,9 @@ func addOptionalQuery(values url.Values, key string, value any) {
 }
 
 // NewTikTokClient creates a TikTok OAuth client.
-func NewTikTokClient(clientID, clientSecret, redirectURL string, options ...option) (*TikTokClient, error) {
-	if clientID == "" {
-		return nil, ErrMissingClientID
+func NewTikTokClient(clientKey, clientSecret, redirectURL string, options ...option) (*TikTokClient, error) {
+	if clientKey == "" {
+		return nil, ErrMissingClientKey
 	}
 	if clientSecret == "" {
 		return nil, ErrMissingClientSecret
@@ -204,7 +204,7 @@ func NewTikTokClient(clientID, clientSecret, redirectURL string, options ...opti
 	}
 	client := &TikTokClient{
 		httpClient:   http.DefaultClient,
-		clientID:     clientID,
+		clientKey:    clientKey,
 		clientSecret: clientSecret,
 		redirectURL:  redirectURL,
 	}

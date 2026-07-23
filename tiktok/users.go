@@ -34,6 +34,7 @@ type (
 		DisplayName     string `json:"display_name"`
 		BioDescription  string `json:"bio_description"`
 		ProfileDeepLink string `json:"profile_deep_link"`
+		Username        string `json:"username"`
 		IsVerified      bool   `json:"is_verified"`
 		FollowerCount   int    `json:"follower_count"`
 		FollowingCount  int    `json:"following_count"`

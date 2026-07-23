@@ -11,7 +11,7 @@ const (
 )
 
 var (
-	ErrMissingClientID      = errors.New("TikTok client ID is required")
+	ErrMissingClientKey     = errors.New("TikTok client key is required")
 	ErrMissingClientSecret  = errors.New("TikTok client secret is required")
 	ErrMissingRedirectURL   = errors.New("TikTok redirect URL is required")
 	ErrMissingScopes        = errors.New("TikTok scopes are required")
