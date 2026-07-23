@@ -26,20 +26,20 @@ type (
 	}
 
 	ResponseListManagedPagesSuccessDataItem struct {
-		ID                 string `json:"id"`
-		Name               string `json:"name"`
-		AccessToken        any    `json:"access_token"`
-		Category           string `json:"category"`
-		CategoryList       []any  `json:"category_list"`
-		Tasks              []any  `json:"tasks"`
-		About              string `json:"about"`
-		Description        string `json:"description"`
-		FanCount           int    `json:"fan_count"`
-		FollowersCount     int    `json:"followers_count"`
-		Website            string `json:"website"`
-		Username           string `json:"username"`
-		Picture            any    `json:"picture"`
-		VerificationStatus string `json:"verification_status"`
+		ID                 string      `json:"id"`
+		Name               string      `json:"name"`
+		AccessToken        any         `json:"access_token"`
+		Category           string      `json:"category"`
+		CategoryList       []any       `json:"category_list"`
+		Tasks              []any       `json:"tasks"`
+		About              string      `json:"about"`
+		Description        string      `json:"description"`
+		FanCount           int         `json:"fan_count"`
+		FollowersCount     int         `json:"followers_count"`
+		Website            string      `json:"website"`
+		Username           string      `json:"username"`
+		Picture            PagePicture `json:"picture"`
+		VerificationStatus string      `json:"verification_status"`
 	}
 
 	ResponseListManagedPagesSuccessPaging struct {
@@ -71,24 +71,29 @@ type (
 	}
 
 	ResponseGetPageSuccess struct {
-		ID                 string `json:"id"`
-		Name               string `json:"name"`
-		FanCount           int    `json:"fan_count"`
-		FollowersCount     int    `json:"followers_count"`
-		AccessToken        string `json:"access_token"`
-		Category           string `json:"category"`
-		CategoryList       []any  `json:"category_list"`
-		Tasks              []any  `json:"tasks"`
-		About              string `json:"about"`
-		Description        string `json:"description"`
-		Website            string `json:"website"`
-		Username           string `json:"username"`
-		Picture            any    `json:"picture"`
-		VerificationStatus string `json:"verification_status"`
+		ID                 string      `json:"id"`
+		Name               string      `json:"name"`
+		FanCount           int         `json:"fan_count"`
+		FollowersCount     int         `json:"followers_count"`
+		AccessToken        string      `json:"access_token"`
+		Category           string      `json:"category"`
+		CategoryList       []any       `json:"category_list"`
+		Tasks              []any       `json:"tasks"`
+		About              string      `json:"about"`
+		Description        string      `json:"description"`
+		Website            string      `json:"website"`
+		Username           string      `json:"username"`
+		Picture            PagePicture `json:"picture"`
+		VerificationStatus string      `json:"verification_status"`
 	}
 
 	ResponseGetPage struct {
 		Success ResponseGetPageSuccess `json:"success"`
+	}
+
+	// PagePicture contains the profile image returned for a Facebook Page.
+	PagePicture struct {
+		Data PictureData `json:"data"`
 	}
 )
 

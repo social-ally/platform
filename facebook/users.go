@@ -26,10 +26,15 @@ type (
 	}
 
 	ResponseGetMeSuccessPicture struct {
+		Data PictureData `json:"data"`
+	}
+
+	// PictureData contains the Facebook profile image URL and dimensions.
+	PictureData struct {
 		URL          string `json:"url"`
-		Height       int    `json:"height"`
-		Width        int    `json:"width"`
-		IsSilhouette bool   `json:"is_silhouette"`
+		Height       *int   `json:"height"`
+		Width        *int   `json:"width"`
+		IsSilhouette *bool  `json:"is_silhouette"`
 	}
 
 	ResponseGetMeSuccess struct {

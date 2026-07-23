@@ -29,6 +29,18 @@ type (
 	}
 
 	ResponseGetMyChannelsSuccessItemsItemSnippetThumbnails struct {
+		Default  Thumbnail `json:"default"`
+		Medium   Thumbnail `json:"medium"`
+		High     Thumbnail `json:"high"`
+		Standard Thumbnail `json:"standard"`
+		Maxres   Thumbnail `json:"maxres"`
+	}
+
+	// Thumbnail is a YouTube channel or video image at a specific resolution.
+	Thumbnail struct {
+		URL    string `json:"url"`
+		Width  *int   `json:"width"`
+		Height *int   `json:"height"`
 	}
 
 	ResponseGetMyChannelsSuccessItemsItemSnippet struct {
